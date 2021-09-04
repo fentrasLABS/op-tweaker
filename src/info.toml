@@ -1,0 +1,9 @@
+[meta]
+name     = "Tweaker"
+author   = "DergnNamedSkye"
+category = "Settings"
+version  = "0.01"
+siteid   = 126
+
+[script]
+imports  = ["Icons.as"]
