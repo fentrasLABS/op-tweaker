@@ -13,6 +13,8 @@ This is a very early version of the plugin so only few features are available fo
 ## Limitations
 * *Render Distance* applies only if you are in the main menu or editor
 * *Level of Detail* might differ depending on your graphics preset
+* **Fog relies on draw distance**, therefore if fog is increased it might be impossible to see the whole map.
+    * Disable *Render Distance* in this case
 
 ## Download
 * [OpenPlanet](https://openplanet.nl/files/126)
