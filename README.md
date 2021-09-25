@@ -17,6 +17,8 @@ This is a very early version of the plugin so only few features are available fo
     * Disable *Render Distance* in this case
 * ***Level of Detail* value remains even if you disable the plugin**
     * Set `"GeomLodScaleZ"` to `1.00000` at `Documents/Trackmania2020/Config/Default.json` to revert the _LOD_ state
+* **Lowest *Level of Detail* is broken after `2021-09-16T14:18:57Z` update**
+    * Consider tweaking the *Distance* more precisely to get rid of black-colored textures
 
 ## Download
 * [OpenPlanet](https://openplanet.nl/files/126)
