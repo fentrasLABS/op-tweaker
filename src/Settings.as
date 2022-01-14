@@ -15,7 +15,7 @@ int Setting_ZClip_Distance = 10;
 bool Setting_GeometryQuality_Enabled = false;
 
 [Setting name="Distance" category="Level of Detail" description="Lowers objects quality at higher distance" min="0.001" max="1000.000"]
-float Setting_GeometryQuality_Distance = 0.001;
+float Setting_GeometryQuality_Distance = 1.000;
 
 // enums
 

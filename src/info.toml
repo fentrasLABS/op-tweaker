@@ -2,7 +2,7 @@
 name     = "Tweaker"
 author   = "DergnNamedSkye"
 category = "Settings"
-version  = "0.01"
+version  = "0.02"
 siteid   = 126
 
 [script]

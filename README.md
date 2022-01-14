@@ -15,15 +15,12 @@ This is a very early version of the plugin so only few features are available fo
 * *Level of Detail* might differ depending on your graphics preset
 * **Fog relies on _Render Distance_**, therefore if fog is increased it might be impossible to see the whole map.
     * Disable *Render Distance* in this case
-* ***Level of Detail* value remains even if you disable the plugin**
-    * Set `"GeomLodScaleZ"` to `1.00000` at `Documents/Trackmania2020/Config/Default.json` to revert the _LOD_ state
-* Lowest *Level of Detail* might cause black-colored textures due to GPU drivers
-    * Try downgrading/upgrading the GPU drivers
-    * Consider tweaking the *Distance* more precisely to hide the issue
+* Some settings can remain enabled even **if you disable or delete the plugin**
+    * *Reset plugin settings* to default before disabling or uninstalling
 
 ## Download
 * [OpenPlanet](https://openplanet.nl/files/126)
-* [Releases](https://gitlab.com/DergnNamedSkye/op-tweaker/-/releases)
+* [Releases](https://gitlab.com/fentras-labs/openplanet/tweaker/-/releases)
 
 ## Screenshots
 

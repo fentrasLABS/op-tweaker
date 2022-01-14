@@ -8,4 +8,4 @@
 * Credits
 
 ### Source Code
-You can access source code on [GitLab](https://gitlab.com/DergnNamedSkye/op-tweaker) or [GitHub](https://github.com/DergnNamedSkye/op-tweaker).
+You can access source code on [GitLab](https://gitlab.com/fentras-labs/openplanet/tweaker) or [GitHub](https://github.com/fentras-labs/op-tweaker).

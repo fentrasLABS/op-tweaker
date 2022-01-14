@@ -1,4 +1,5 @@
 CSystemConfigDisplay@ display = null;
+CSystemConfigDisplay@ displaySafe = null;
 
 dictionary defaults = {};
 
@@ -37,10 +38,17 @@ void ApplySettings()
 
 void SetDefaults()
 {
-	defaults.Set("ZClip", display.ZClip);
-	defaults.Set("ZClipAuto", display.ZClipAuto);
-	defaults.Set("ZClipNbBlock", display.ZClipNbBlock);
-	defaults.Set("GeomLodScaleZ", display.GeomLodScaleZ);
+	defaults.Set("ZClip", displaySafe.ZClip);
+	defaults.Set("ZClipAuto", displaySafe.ZClipAuto);
+	defaults.Set("ZClipNbBlock", displaySafe.ZClipNbBlock);
+	defaults.Set("GeomLodScaleZ", displaySafe.GeomLodScaleZ);
+}
+
+void Reset()
+{
+	Setting_ZClip_Enabled = false;
+	Setting_GeometryQuality_Enabled = false;
+	ApplySettings();
 }
 
 void OnSettingsChanged()
@@ -48,9 +56,20 @@ void OnSettingsChanged()
 	ApplySettings();
 }
 
+void OnDestroyed()
+{
+	Reset();
+}
+
+void OnDisabled()
+{
+	Reset();
+}
+
 void Main()
 {
 	@display = GetApp().Viewport.SystemConfig.Display;
+	@displaySafe = GetApp().Viewport.SystemConfig.DisplaySafe;
 	SetDefaults();
 	ApplySettings();
 }
