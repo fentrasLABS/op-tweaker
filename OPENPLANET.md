@@ -1,4 +1,4 @@
-# openplanet.nl Plugin Description Template
+# Plugin Description Template
 
 * Description
 * Features
