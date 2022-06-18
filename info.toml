@@ -2,7 +2,7 @@
 name     = "Tweaker"
 author   = "fentras LABS"
 category = "Settings"
-version  = "0.1.0"
+version  = "0.2.1"
 siteid   = 126
 
 [script]
