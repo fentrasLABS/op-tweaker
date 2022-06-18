@@ -1,8 +1,8 @@
 [meta]
 name     = "Tweaker"
-author   = "DergnNamedSkye"
+author   = "fentras LABS"
 category = "Settings"
-version  = "0.02"
+version  = "0.1.0"
 siteid   = 126
 
 [script]
