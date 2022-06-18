@@ -1,4 +1,4 @@
-# Tweaker <sup><sub>Trackmania ManiaPlanet</sub></sup>
+# Tweaker <sup><sub>Trackmania</sub></sup>
 Plugin for OpenPlanet that helps modify in-game hidden settings (mostly visual) and slightly boost the performance.
 
 ## Features
