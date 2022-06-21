@@ -29,5 +29,5 @@ Plugin for OpenPlanet that helps modify in-game hidden settings and slightly boo
 
 ## Credits
 
-*Project icon* provided by [Fork Awesome](https://forkaweso.me/)
-*UI tabs* code provided by [Plugin Manager by Miss](https://github.com/openplanet-nl/plugin-manager/tree/master/src/Interface)
+- *Project icon* provided by [Fork Awesome](https://forkaweso.me/)
+- *UI tabs* code provided by [Plugin Manager by Miss](https://github.com/openplanet-nl/plugin-manager/tree/master/src/Interface)
