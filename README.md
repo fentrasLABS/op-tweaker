@@ -1,20 +1,21 @@
-# Tweaker <sup><sub>Trackmania</sub></sup>
-Plugin for OpenPlanet that helps modify in-game hidden settings (mostly visual) and slightly boost the performance.
+# Tweaker <sup><sub>Trackmania ManiaPlanet Turbo</sub></sup>
+Plugin for OpenPlanet that helps modify in-game hidden settings and slightly boost the performance.
 
 ## Features
 
 * Graphics tweaking
-    * Render Distance (Z-Clip)
-    * Level of Detail (LOD)
-
-## Limitations
-* To change *Render Distance* you must apply it first in the main menu or editor
-    * It does not apply when you are in the game
-* *Level of Detail* might differ depending on your graphics preset
-* **Fog and ColorFX rely on _Render Distance_**, therefore these effects will make it almost impossible to see the whole map.
-    * Disable *Render Distance* in this case
-* Some settings can remain enabled even **if you disable or delete the plugin**
-    * *Reset plugin settings* to default before disabling or uninstalling
+    * Screen Resolution
+    * Draw Distance (Z-Clip)
+    * Render Modes & Types
+    * Shadow Types
+    * Projectors
+* Environment
+    * Background
+    * Clouds
+    * Lighting
+* Camera tweaking
+    * Field of View
+    * Quick Zoom
 
 ## Download
 * [OpenPlanet](https://openplanet.nl/files/126)
@@ -28,4 +29,5 @@ Plugin for OpenPlanet that helps modify in-game hidden settings (mostly visual) 
 
 ## Credits
 
-Project icon provided by [Fork Awesome](https://forkaweso.me/)
+*Project icon* provided by [Fork Awesome](https://forkaweso.me/)
+*UI tabs* code provided by [Plugin Manager by Miss](https://github.com/openplanet-nl/plugin-manager/tree/master/src/Interface)
