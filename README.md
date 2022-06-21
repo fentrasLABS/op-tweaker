@@ -2,7 +2,6 @@
 Plugin for OpenPlanet that helps modify in-game hidden settings and slightly boost the performance.
 
 ## Features
-
 * Graphics tweaking
     * Screen Resolution
     * Draw Distance (Z-Clip)
