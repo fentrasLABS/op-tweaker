@@ -19,7 +19,7 @@ bool Setting_CloudsLighting = true;
 [Setting name="Lighting Color" category="Parameters" color]
 vec3 Setting_LightingColor = vec3(255, 255, 255);
 
-[Setting name="Lighting Intensity" category="Parameters" min=-1.f max=1.f]
+[Setting name="Lighting Intensity" category="Parameters"]
 float Setting_LightingIntensity = 1.f;
 
 [Setting name="Lighting Inverse" category="Parameters"]

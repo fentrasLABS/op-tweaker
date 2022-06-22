@@ -14,7 +14,7 @@ vec4 Setting_FOVRect = vec4(-1.f, -1.f, 1.f, 1.f);
 [Setting name="Quick Zoom" category="Parameters"]
 QuickZoom Setting_QuickZoom = QuickZoom::Disabled;
 
-[Setting name="Quick Zoom Amount" category="Parameters" min=1 max=100]
+[Setting name="Quick Zoom Amount" category="Parameters"]
 int Setting_QuickZoomAmount = 50;
 
 [Setting name="Quick Zoom Shortcut" category="Parameters"]

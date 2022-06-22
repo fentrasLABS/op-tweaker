@@ -3,15 +3,24 @@
 [Setting name="Resolution" category="Parameters"]
 bool Setting_Resolution = false;
 
-[Setting name="Resolution Vector" category="Parameters"]
-vec2 Setting_ResolutionX = vec2(800, 600);
+[Setting name="Resolution Width" category="Parameters"]
+int Setting_ResolutionWidth = 800;
+
+[Setting name="Resolution Height" category="Parameters"]
+int Setting_ResolutionHeight = 600;
+
+[Setting name="Resolution Shortcut" category="Parameters"]
+Shortcut Setting_ResolutionShortcut = Shortcut::Disabled;
+
+[Setting name="Resolution Shortcut Key" category="Parameters"]
+VirtualKey Setting_ResolutionShortcutKey= VirtualKey::F1;
 
 // Draw Distance
 
 [Setting name="ZClip" category="Parameters"]
 bool Setting_ZClip = false;
 
-[Setting name="ZClip Distance" category="Parameters" min=10 max=5000]
+[Setting name="ZClip Distance" category="Parameters"]
 int Setting_ZClipDistance = 5000;
 
 // Render Mode
