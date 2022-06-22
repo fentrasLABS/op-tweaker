@@ -23,6 +23,14 @@ bool Setting_ZClip = false;
 [Setting name="ZClip Distance" category="Parameters"]
 int Setting_ZClipDistance = 5000;
 
+// Level of Detail
+
+[Setting name="Level of Detail" category="Parameters"]
+bool Setting_LOD = false;
+
+[Setting name="Level of Detail Distance" category="Parameters"]
+float Setting_LODDistance = 1.f;
+
 // Render Mode
 
 [Setting name="Render Mode" category="Parameters"]

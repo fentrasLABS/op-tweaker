@@ -5,6 +5,7 @@ Plugin for OpenPlanet that helps modify in-game hidden settings and slightly boo
 * Graphics tweaking
     * Screen Resolution
     * Draw Distance (Z-Clip)
+    * Level of Detail (LoD)
     * Render Modes & Types
     * Shadow Types
     * Projectors
