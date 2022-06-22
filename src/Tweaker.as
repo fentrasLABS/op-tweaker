@@ -1,29 +1,58 @@
 string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
 
-CHmsCamera@ mainCamera = null;
+bool initialised = false;
 
-Window@ g_window;
+CHmsCamera@ mainCamera;
+
+Window@ window;
+
+void InitialiseNods(bool init = true) {
+	if (init) {
+		if (GetApp().GameScene !is null) {
+			@mainCamera = GetApp().Viewport.Cameras[0];
+		} else return;
+		initialised = true;
+	} else {
+		@mainCamera = null;
+		initialised = false;
+	}
+}
 
 void RenderMenu() {
     if (UI::MenuItem(title)) {
-        g_window.isOpened = !g_window.isOpened;
+        window.isOpened = !window.isOpened;
     }
 }
 
 void RenderInterface()
 {
-    if (g_window.isOpened) g_window.Render();
+    if (window.isOpened) {
+		window.Render();
+		if (!initialised) {
+			InitialiseNods();
+		}
+	}
 }
 
 void Render()
 {
-	if (Setting_ZClip) {
-		mainCamera.FarZ = Setting_ZClipDistance;
+	if (initialised) {
+		if (Setting_ZClip) {
+			mainCamera.FarZ = Setting_ZClipDistance;
+		}
+	}
+}
+
+void Update(float delta)
+{
+	if(initialised && GetApp().GameScene is null) {
+		InitialiseNods(false);
 	}
 }
 
 void Main()
 {
-	@mainCamera = GetApp().Viewport.Cameras[0];
-	@g_window = Window();
+	
+	@window = Window();
+	@mainCamera = null;
 }

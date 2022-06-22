@@ -3,7 +3,7 @@
 [Setting name="Background" category="Parameters"]
 bool Setting_Sky = true;
 
-[Setting name="Background Color" category="Parameters"]
+[Setting name="Background Color" category="Parameters" color]
 vec3 Setting_BackgroundColor = vec3(0, 0, 0);
 
 // Clouds
@@ -16,7 +16,7 @@ bool Setting_CloudsLighting = true;
 
 // Lighting
 
-[Setting name="Lighting Color" category="Parameters"]
+[Setting name="Lighting Color" category="Parameters" color]
 vec3 Setting_LightingColor = vec3(255, 255, 255);
 
 [Setting name="Lighting Intensity" category="Parameters" min=-1.f max=1.f]

@@ -11,8 +11,8 @@ vec2 Setting_ResolutionX = vec2(800, 600);
 [Setting name="ZClip" category="Parameters"]
 bool Setting_ZClip = false;
 
-[Setting name="ZClip Distance" category="Parameters" min=1 max=50000]
-int Setting_ZClipDistance = 50000;
+[Setting name="ZClip Distance" category="Parameters" min=10 max=5000]
+int Setting_ZClipDistance = 5000;
 
 // Render Mode
 

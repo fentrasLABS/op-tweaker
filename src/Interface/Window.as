@@ -4,7 +4,7 @@ class Window
 
     array<Tab@> tabs;
     Tab@ activeTab;
-    Tab@ c_lastActiveTab;
+    Tab@ lastActiveTab;
 
     // Main Tabs
     Window()
@@ -25,9 +25,9 @@ class Window
     {
         if (UI::Begin(title, isOpened)){
             // Push the last active tab style so that the separator line is colored (this is drawn in BeginTabBar)
-            auto lastActiveTab = c_lastActiveTab;
-            if (lastActiveTab !is null) {
-                lastActiveTab.PushTabStyle();
+            auto previousActiveTab = lastActiveTab;
+            if (previousActiveTab !is null) {
+                previousActiveTab.PushTabStyle();
             }
             UI::BeginTabBar("Tabs");
 
@@ -48,7 +48,7 @@ class Window
                 if (tab.CanClose()){
                     bool open = true;
                     if(UI::BeginTabItem(tab.GetLabel(), open, flags)){
-                        @c_lastActiveTab = tab;
+                        @lastActiveTab = tab;
 
                         UI::BeginChild("Tab");
                         tab.Render();
@@ -61,7 +61,7 @@ class Window
                     }
                 } else {
                     if(UI::BeginTabItem(tab.GetLabel(), flags)){
-                        @c_lastActiveTab = tab;
+                        @lastActiveTab = tab;
 
                         UI::BeginChild("Tab");
                         tab.Render();
@@ -80,8 +80,8 @@ class Window
             UI::EndTabBar();
 
             // Pop the tab style (for the separator line) only after EndTabBar, to satisfy the stack unroller
-            if (lastActiveTab !is null) {
-                lastActiveTab.PopTabStyle();
+            if (previousActiveTab !is null) {
+                previousActiveTab.PopTabStyle();
             }
         }
         UI::End();
