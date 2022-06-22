@@ -52,9 +52,10 @@ void Update(float delta)
 
 void OverrideSettings()
 {
-	if (Setting_ZClip) {
+	if (Setting_ZClip)
 		mainCamera.FarZ = Setting_ZClipDistance;
-	}
+	if (Setting_FOV == FieldOfView::Simple)
+		mainCamera.Fov = Setting_FOVAmount;
 }
 
 void ApplySettings()
