@@ -22,3 +22,19 @@ Shortcut Setting_QuickZoomShortcut = Shortcut::Disabled;
 
 [Setting name="Quick Zoom Shortcut Key" category="Parameters"]
 VirtualKey Setting_QuickZoomShortcutKey= VirtualKey::Z;
+
+// enums
+
+enum FieldOfView
+{
+    Default,
+    Simple,
+    Advanced
+}
+
+enum QuickZoom
+{
+    Disabled,
+    Simple,
+    Advanced
+}

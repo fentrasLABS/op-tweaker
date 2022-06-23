@@ -50,3 +50,25 @@ ShadowType Setting_ShadowType = ShadowType::Default;
 
 [Setting name="Projectors" category="Parameters"]
 bool Setting_Projectors = true;
+
+// enums
+
+enum RenderMode
+{
+    Default,
+    Limited,
+    LimitedWithPilot
+}
+
+enum RenderType
+{
+    Default,
+    OnlyEffects,
+    Minimal
+}
+
+enum ShadowType
+{
+    Default,
+    ParallelSplitShadowMaps
+}

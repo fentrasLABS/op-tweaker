@@ -1,7 +1,7 @@
 // Background
 
 [Setting name="Background" category="Parameters"]
-bool Setting_Sky = true;
+bool Setting_Background = true;
 
 [Setting name="Background Color" category="Parameters" color]
 vec3 Setting_BackgroundColor = vec3(0, 0, 0);
