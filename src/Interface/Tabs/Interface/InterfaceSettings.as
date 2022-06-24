@@ -4,7 +4,7 @@
 bool Setting_FPS = false;
 
 [Setting name="FPS Counter Smoothing" category="Parameters"]
-FPSCounterSmoothing Setting_FPSSmoothing = FPSCounterSmoothing::Disabled;
+FPSCounterSmoothing Setting_FPSSmoothing = FPSCounterSmoothing::None;
 
 enum FPSCounterSmoothing
 {
