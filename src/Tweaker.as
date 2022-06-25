@@ -85,6 +85,9 @@ void ApplySettings()
 	gameScene.Mobils[0].IsVisible = Setting_Background;
 	cast<CSceneMobilClouds>(gameScene.Mobils[1]).Clouds.IsVisible = Setting_Clouds;
 	cast<CSceneMobilClouds>(gameScene.Mobils[1]).Clouds.MaterialUseT3b = Setting_CloudsLighting;
+	mainCamera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
+	viewport.TextureRender = Setting_LightingMode == LightingMode::Minimal ? 0 : 2;
+	viewport.RenderProjectors = Setting_Projectors ? 1 : 0;
 	// Broken for now
 	// mainCamera.ClearColor = Setting_BackgroundColor;
 }

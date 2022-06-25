@@ -36,15 +36,10 @@ float Setting_LODDistance = 1.f;
 [Setting name="Render Mode" category="Parameters"]
 RenderMode Setting_RenderMode = RenderMode::Default;
 
-// Render Style
+// Lighting Mode
 
 [Setting name="Render Style" category="Parameters"]
-RenderType Setting_RenderType = RenderType::Default;
-
-// Shadow Style
-
-[Setting name="Shadow Style" category="Parameters"]
-ShadowType Setting_ShadowType = ShadowType::Default;
+LightingMode Setting_LightingMode = LightingMode::Default;
 
 // Projectors
 
@@ -56,19 +51,11 @@ bool Setting_Projectors = true;
 enum RenderMode
 {
     Default,
-    Limited,
-    LimitedWithPilot
+    Limited
 }
 
-enum RenderType
+enum LightingMode
 {
     Default,
-    OnlyEffects,
     Minimal
-}
-
-enum ShadowType
-{
-    Default,
-    ParallelSplitShadowMaps
 }
