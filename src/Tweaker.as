@@ -1,12 +1,12 @@
 // 0.3.0 TODO
 // Apply tables for proper UI layout
+// Bug on Linux with Null pointer exception at gameScene
 
 string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
 
 dictionary defaults = {};
 
 bool initialised = false;
-bool applyOnce = false;
 
 CTrackMania@ app;
 CHmsViewport@ viewport;
@@ -23,11 +23,10 @@ void InitialiseNods(bool init = true) {
 		@gameScene = app.GameScene.HackScene;
 		SaveDefaults();
 		ApplySettings();
-		applyOnce = true;
 		initialised = true;
 	} else {
 		@mainCamera = null;
-		applyOnce = false;
+		@gameScene = null;
 		initialised = false;
 	}
 }
@@ -63,10 +62,7 @@ void Update(float delta)
 	if (initialised) {
 		if (app.GameScene is null) {
 			InitialiseNods(false);
-		}
-		if (!applyOnce) {
-			ApplySettings();
-			applyOnce = true;
+			return;
 		}
 	} else
 		InitialiseNods();
