@@ -73,7 +73,7 @@ class GraphicsTab : Tab {
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
 			UI::Text("\\$ff0Cutting Edge Version Note");
-			UI::Text("The lighting might be too bright but there's a fix that will be introduced in the next commit.");
+			UI::Text("If lighting is too bright you can tweak it in Environment tab.");
 			UI::EndTooltip();
 		}
 

@@ -38,5 +38,33 @@ class EnvironmentTab : Tab {
 			UI::EndTooltip();
 		}
         if (!Setting_Clouds) UI::EndDisabled();
+
+		// Lighting Car
+
+		Setting_LightingCar = UI::Checkbox("Lighting (Car)", Setting_LightingCar);
+
+		if (UI::IsItemHovered()) {
+			UI::BeginTooltip();
+			UI::Text("Toggle car lighting settings");
+			UI::EndTooltip();
+		}
+
+        if (!Setting_LightingCar) UI::BeginDisabled();
+		Setting_LightingCarColor = UI::InputColor3("Lighting (Car) Color", Setting_LightingCarColor);
+		Setting_LightingCarIntensity = UI::SliderFloat("Lighting (Car) Intensity", Setting_LightingCarIntensity, -10.f, 10.f);
+        if (!Setting_LightingCar) UI::EndDisabled();
+
+		Setting_LightingWorld = UI::Checkbox("Lighting (World)", Setting_LightingWorld);
+
+		if (UI::IsItemHovered()) {
+			UI::BeginTooltip();
+			UI::Text("Toggle world lighting settings");
+			UI::EndTooltip();
+		}
+
+        if (!Setting_LightingWorld) UI::BeginDisabled();
+		Setting_LightingWorldColor = UI::InputColor3("Lighting (World) Color", Setting_LightingWorldColor);
+		Setting_LightingWorldIntensity = UI::SliderFloat("Lighting (World) Intensity", Setting_LightingWorldIntensity, -10.f, 10.f);
+        if (!Setting_LightingWorld) UI::EndDisabled();
     }
 }
