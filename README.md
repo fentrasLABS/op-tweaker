@@ -1,35 +1,37 @@
-# Tweaker <sup><sub>Trackmania ManiaPlanet Turbo</sub></sup>
+# Tweaker Preview <sup><sub>Trackmania</sub></sup>
 Plugin for OpenPlanet that helps modify in-game hidden settings and slightly boost the performance.
+
+## Disclaimer
+This is a `0.3.0` version preview. It will contain bugs, unfinished features and can stop working at any time. Use only if you want to test latest features. If you encounter any bugs or want to make a suggestion, please open an [Issue](https://gitlab.com/fentrasLABS/openplanet/tweaker/-/issues) or report to *OpenPlanet* [Discord](https://openplanet.dev/link/discord).
 
 ## Features
 * Graphics
     * Screen Resolution
-    * Draw Distance (Z-Clip)
-    * Level of Detail (LoD)
-    * Render Modes
-    * Lighting Modes
+    * Draw Distance
+    * Rendering
+    * Lighting
     * Projectors
 * Environment
     * Background
     * Clouds
     * Lighting
 * Camera
-    * Field of View
+    * *Field of View
 * Interface
-    * FPS counter
+    * *FPS counter
 * Special
-    * Quick Zoom
-    * Wipeout Mode
+    * *Quick Zoom
+    * *Wipeout Mode
+* Plugin
+    * *ManiaPlanet Support
+    * *Turbo Support
+
+*Features marked with asterisk are unfinished.
 
 ## Download
-* [OpenPlanet](https://openplanet.nl/files/126)
+* [OpenPlanet](https://openplanet.nl/files/221)
 * [Releases](https://gitlab.com/fentrasLABS/openplanet/tweaker/-/releases)
-
-## Screenshots
-![](_git/1.png)
-![](_git/2.png)
-![](_git/3.png)
+* For regular builds please refer to [Release README](_RELEASE/README.md)
 
 ## Credits
-- *Project icon* provided by [Fork Awesome](https://forkaweso.me/)
-- *UI tabs* code provided by [Plugin Manager by Miss](https://github.com/openplanet-nl/plugin-manager/tree/master/src/Interface)
+Please refer to [Release README](_RELEASE/README.md).

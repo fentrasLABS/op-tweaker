@@ -1,6 +1,7 @@
 // 0.3.0 TODO
 // Apply tables for proper UI layout
 // Bug on Linux with Null pointer exception at gameScene
+// Replace Render() with startnew()
 
 string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
 
@@ -50,6 +51,7 @@ void RenderInterface()
 	}
 }
 
+// Probably replace with startnew()
 void Render()
 {
 	if (initialised) {

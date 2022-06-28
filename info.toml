@@ -1,6 +1,7 @@
 [meta]
-name     = "Tweaker"
+name     = "Tweaker Preview"
 author   = "fentras LABS"
 category = "Settings"
-version  = "0.3.0"
-siteid   = 126
+version  = "220628"
+siteid   = 221
+blocks   = ["Tweaker"]
