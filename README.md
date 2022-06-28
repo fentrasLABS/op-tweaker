@@ -2,7 +2,7 @@
 Plugin for OpenPlanet that helps modify in-game hidden settings and slightly boost the performance.
 
 ## Disclaimer
-This is a `0.3.0` version preview. It will contain bugs, unfinished features and can stop working at any time. Use only if you want to test latest features. If you encounter any bugs or want to make a suggestion, please open an [Issue](https://gitlab.com/fentrasLABS/openplanet/tweaker/-/issues) or report to *OpenPlanet* [Discord](https://openplanet.dev/link/discord).
+This is a `0.3.0` version preview. It will contain bugs, unfinished features and can stop working at any time. Use only if you want to test latest features. If you have previous version installed, please reset plugin settings to default and uninstall it first. If you encounter any bugs or want to make a suggestion, please open an [Issue](https://gitlab.com/fentrasLABS/openplanet/tweaker/-/issues) or report to *OpenPlanet* [Discord](https://openplanet.dev/link/discord).
 
 ## Features
 * Graphics
@@ -26,7 +26,7 @@ This is a `0.3.0` version preview. It will contain bugs, unfinished features and
     * *ManiaPlanet Support
     * *Turbo Support
 
-*Features marked with asterisk are unfinished.
+*Features marked with asterisk are unfinished.*
 
 ## Download
 * [OpenPlanet](https://openplanet.nl/files/221)
