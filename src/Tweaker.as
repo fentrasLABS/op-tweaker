@@ -2,6 +2,13 @@
 // Apply tables for proper UI layout
 // Bug on Linux with Null pointer exception at gameScene
 // Replace Render() with startnew()
+// Organize code properly
+// m_IsOverlay3D needs re-toggle when entering a map to make cars appear again
+
+// ManiaPlanet and Turbo TODO
+// Draw Distance (fixable, another nod), Field of View (unknown) and Lighting (needs research) are not working
+// Disabling background disables Stadium instead of SkyDome (new feature!)
+// IsOverlay3D makes cars disappear mid-game and doesn't work in Turbo
 
 string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
 
@@ -11,8 +18,16 @@ bool initialised = false;
 
 CTrackMania@ app;
 CHmsViewport@ viewport;
-CScene@ gameScene;
 CHmsCamera@ mainCamera;
+CSceneCloudSystem@ clouds;
+
+#if TMNEXT
+CScene@ gameScene;
+#elif MP4
+CGameScene@ gameScene;
+#elif TURBO
+CScene3d@ gameScene;
+#endif
 
 Window@ window;
 
@@ -20,8 +35,20 @@ void InitialiseNods(bool init = true) {
 	if (init) {
 		if (app.GameScene is null)
 			return;
+
+#if MP4
+		@gameScene = app.GameScene;
+#elif TURBO
+		@gameScene = app.GameScene.Scene;
+#endif
+#if TMNEXT
 		@mainCamera = viewport.Cameras[0];
 		@gameScene = app.GameScene.HackScene;
+		@clouds = cast<CSceneMobilClouds>(gameScene.Mobils[1]).Clouds;
+#elif MP4 || TURBO
+		@mainCamera = cast<CHmsCamera>(app.GameCamera.SceneCamera.HmsPoc);
+		@clouds = cast<CSceneCloudSystem>(gameScene.MgrWeather.CloudSystem);
+#endif
 		SaveDefaults();
 		ApplySettings();
 		initialised = true;
@@ -84,9 +111,13 @@ void ApplySettings()
 	viewport.ScreenShotHeight = Setting_ResolutionHeight;
 	viewport.ScreenShotForceRes = Setting_Resolution;
 	gameScene.Mobils[0].IsVisible = Setting_Background;
-	cast<CSceneMobilClouds>(gameScene.Mobils[1]).Clouds.IsVisible = Setting_Clouds;
-	cast<CSceneMobilClouds>(gameScene.Mobils[1]).Clouds.MaterialUseT3b = Setting_CloudsLighting;
+	clouds.IsVisible = Setting_Clouds;
+	clouds.MaterialUseT3b = Setting_CloudsLighting;
+#if TMNEXT
 	mainCamera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
+#else
+	mainCamera.IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
+#endif
 	viewport.TextureRender = Setting_LightingMode == LightingMode::Minimal ? 0 : 2;
 	viewport.RenderProjectors = Setting_Projectors ? 1 : 0;
 	gameScene.Lights[0].Light.Color = Setting_LightingCar ? Setting_LightingCarColor : vec3(defaults["Lighting Car Color"]);
