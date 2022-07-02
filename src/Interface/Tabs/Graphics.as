@@ -19,9 +19,9 @@ class GraphicsTab : Tab {
 
 		if (Setting_Resolution) UI::BeginDisabled();
 		// UI::SameLine();
-		Setting_ResolutionWidth = UI::SliderInt("Resolution Width", Setting_ResolutionWidth, RESOLUTION_MIN, RESOLUTION_WIDTH_MAX);
+		Setting_ResolutionWidth = UI::InputInt("Resolution Width", Setting_ResolutionWidth);
 		// UI::SameLine();
-		Setting_ResolutionHeight = UI::SliderInt("Resolution Height", Setting_ResolutionHeight, RESOLUTION_MIN, RESOLUTION_HEIGHT_MAX);
+		Setting_ResolutionHeight = UI::InputInt("Resolution Height", Setting_ResolutionHeight);
 		// UI::SameLine();
 		// UI::Text("Screen Resolution");
 		if (Setting_Resolution) UI::EndDisabled();
