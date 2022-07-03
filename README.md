@@ -8,13 +8,14 @@ This is a `0.3.0` version preview. It will contain bugs, unfinished features and
 * Graphics
     * Screen Resolution
     * Draw Distance
-    * Rendering
+    * *Rendering
     * Lighting
     * Projectors
 * Environment
     * Background
+	* *Decoration
     * Clouds
-    * Lighting
+    * *Lighting
 * Camera
     * *Field of View
 * Interface
@@ -22,9 +23,6 @@ This is a `0.3.0` version preview. It will contain bugs, unfinished features and
 * Special
     * *Quick Zoom
     * *Wipeout Mode
-* Plugin
-    * *ManiaPlanet Support
-    * *Turbo Support
 
 *Features marked with asterisk are unfinished.*
 
