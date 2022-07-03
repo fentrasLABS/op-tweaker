@@ -7,6 +7,7 @@
 
 // ManiaPlanet and Turbo TODO
 // Field of View (Dev::Patch, Moski plugin) and Lighting (too many nods) are not working
+// Wrong skybox index in Valley and Lagoon
 // IsOverlay3D makes cars disappear mid-game and doesn't work in Turbo
 
 string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
