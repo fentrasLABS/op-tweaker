@@ -7,6 +7,7 @@ class Game : Vendor
     CTrackMania@ app;
     CHmsViewport@ view;
     CHmsCamera@ camera;
+    CSceneMobil@ skybox;
     CSceneCloudSystem@ clouds;
 
     Game() {
@@ -49,15 +50,9 @@ class Game : Vendor
         view.ScreenShotForceRes = Setting_Resolution;
         view.TextureRender = Setting_LightingMode == LightingMode::Minimal ? 0 : 2;
         view.RenderProjectors = Setting_Projectors ? 1 : 0;
-        scene.Mobils[0].IsVisible = Setting_Background;
-        scene.Lights[0].Light.Color = Setting_LightingCar ? Setting_LightingCarColor : vec3(defaults["Lighting Car Color"]);
-        scene.Lights[0].Light.Intensity = Setting_LightingCar ? Setting_LightingCarIntensity : float(defaults["Lighting Car Intensity"]);
-        scene.Lights[1].Light.Color = Setting_LightingWorld ? Setting_LightingWorldColor : vec3(defaults["Lighting World Color"]);
-        scene.Lights[1].Light.Intensity = Setting_LightingWorld ? Setting_LightingWorldIntensity : float(defaults["Lighting World Intensity"]);
+        skybox.IsVisible = Setting_Background;
         clouds.IsVisible = Setting_Clouds;
         clouds.MaterialUseT3b = Setting_CloudsLighting;
-        // camera.ClearColorEnable = !Setting_Background;
-        // camera.ClearColor = Setting_BackgroundColor;
         ApplyVendorSettings();
     }
 
@@ -65,10 +60,7 @@ class Game : Vendor
 
     void OverrideSettings()
     {
-        if (Setting_ZClip)
-            camera.FarZ = Setting_ZClipDistance;
-        if (Setting_FOV == FieldOfView::Simple)
-            camera.Fov = Setting_FOVAmount;
+        OverrideVendorSettings();
     }
 
     void OverrideVendorSettings() { }

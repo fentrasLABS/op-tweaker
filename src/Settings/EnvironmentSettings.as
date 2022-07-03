@@ -6,6 +6,11 @@ bool Setting_Background = true;
 [Setting name="Background Color" category="Parameters" color]
 vec3 Setting_BackgroundColor = vec3(0, 0, 0);
 
+// Decoration
+
+[Setting name="Decoration" category="Parameters"]
+bool Setting_Decoration = true;
+
 // Clouds
 
 [Setting name="Clouds" category="Parameters"]
@@ -20,7 +25,7 @@ bool Setting_CloudsLighting = true;
 bool Setting_LightingCar = false;
 
 [Setting name="Lighting Car Color" category="Parameters" color]
-vec3 Setting_LightingCarColor = vec3(255, 255, 255);
+vec3 Setting_LightingCarColor = vec3(1.f, 1.f, 1.f);
 
 [Setting name="Lighting Car Intensity" category="Parameters"]
 float Setting_LightingCarIntensity = 1.f;
@@ -32,7 +37,7 @@ bool Setting_LightingCarInverse = false;
 bool Setting_LightingWorld = false;
 
 [Setting name="Lighting World Color" category="Parameters" color]
-vec3 Setting_LightingWorldColor = vec3(255, 255, 255);
+vec3 Setting_LightingWorldColor = vec3(1.f, 1.f, 1.f);
 
 [Setting name="Lighting World Intensity" category="Parameters"]
 float Setting_LightingWorldIntensity = 1.f;

@@ -5,7 +5,7 @@ class GraphicsTab : Tab {
     {
 		// Screen Resolution
 
-		Setting_Resolution = UI::Checkbox("Screen Resolution Toggle", Setting_Resolution);
+		Setting_Resolution = UI::Checkbox("Resolution Override", Setting_Resolution);
 
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
@@ -40,7 +40,7 @@ class GraphicsTab : Tab {
 		Setting_ZClipDistance = UI::SliderInt("Draw Distance", Setting_ZClipDistance, 10, 5000);
 
 		// Render Mode
-
+#if !TURBO
 		if (UI::BeginCombo("Render Mode", tostring(Setting_RenderMode))) {
 			if (UI::Selectable("Default", false)) {
 				Setting_RenderMode = RenderMode::Default;
@@ -50,14 +50,15 @@ class GraphicsTab : Tab {
 			}
 			UI::EndCombo();
 		}
-
+#if TMNEXT
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
 			UI::Text("\\$ff0Cutting Edge Version Note");
 			UI::Text("To fix decals being stuck on the screen switch to Free Camera,\nlook somewhere where you don't see any decals (e.g. sky)\nand enable this setting.");
 			UI::EndTooltip();
 		}
-
+#endif
+#endif
 		// Lighting Mode
 
 		if (UI::BeginCombo("Lighting Mode", tostring(Setting_LightingMode))) {
@@ -69,14 +70,14 @@ class GraphicsTab : Tab {
 			}
 			UI::EndCombo();
 		}
-
+#if TMNEXT
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
 			UI::Text("\\$ff0Cutting Edge Version Note");
 			UI::Text("If lighting is too bright you can tweak it in Environment tab.");
 			UI::EndTooltip();
 		}
-
+#endif
 		// Projectors
 
 		Setting_Projectors = UI::Checkbox("Projectors Toggle", Setting_Projectors);

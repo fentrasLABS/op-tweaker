@@ -11,9 +11,10 @@ class Window
     {
         AddTab(GraphicsTab());
         AddTab(EnvironmentTab());
+#if TMNEXT
         AddTab(CameraTab());
+#endif
         AddTab(InterfaceTab());
-        AddTab(SpecialTab());
     }
 
     void AddTab(Tab@ tab, bool select = false){

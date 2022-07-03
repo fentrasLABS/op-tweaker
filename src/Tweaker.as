@@ -2,10 +2,11 @@
 // Apply tables for proper UI layout
 // Replace Render() with another method
 // m_IsOverlay3D needs re-toggle when entering a map to make cars appear again
+// Separate interface into classes like in Core folder
+// Settings as well?
 
 // ManiaPlanet and Turbo TODO
-// Draw Distance (fixable, another nod), Field of View (unknown) and Lighting (needs research) are not working
-// Disabling background disables Stadium instead of SkyDome (new feature!)
+// Field of View (Dev::Patch, Moski plugin) and Lighting (too many nods) are not working
 // IsOverlay3D makes cars disappear mid-game and doesn't work in Turbo
 
 string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
