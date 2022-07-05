@@ -2,7 +2,7 @@
 name     = "Tweaker Preview"
 author   = "fentras LABS"
 category = "Settings"
-version  = "220703"
+version  = "220705"
 siteid   = 221
 blocks   = ["Tweaker"]
 
