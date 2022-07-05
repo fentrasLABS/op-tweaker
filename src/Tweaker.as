@@ -25,7 +25,9 @@ void RenderInterface()
 {
     if (window.isOpened) {
 		window.Render();
-		game.ApplySettings();
+		if (game.initialised) {
+			game.ApplySettings();
+		}
 	}
 	if (Setting_FPS) {
 		UI::Begin("\\$o\\$wFPS Counter", Setting_FPS, UI::WindowFlags::AlwaysAutoResize + UI::WindowFlags::NoTitleBar + UI::WindowFlags::NoDocking);
@@ -37,20 +39,23 @@ void RenderInterface()
 void Render()
 {
 	if (game.initialised) {
-		game.OverrideSettings();
-	}
-}
-
-void Update(float delta)
-{
-	if (game.initialised) {
 		if (game.app.GameScene is null) {
 			game.RemoveNods();
 		}
+		game.OverrideSettings();
 	} else {
 		game.AddNods();
 	}
 }
+
+void Update(float dt)
+{
+	if (game.initialised) {
+		game.Update(dt);
+	}
+}
+
+void VendorUpdate(float dt) { }
 
 void Main()
 {

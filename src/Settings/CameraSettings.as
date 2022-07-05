@@ -1,3 +1,9 @@
+namespace Camera
+{
+    const int MinimumFOV = 1;
+    const int MaximumFOV = 175;
+}
+
 // Field of View
 
 [Setting name="Field of View" category="Parameters"]

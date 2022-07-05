@@ -5,3 +5,6 @@ category = "Settings"
 version  = "220703"
 siteid   = 221
 blocks   = ["Tweaker"]
+
+[script]
+dependencies = ["VehicleState"]

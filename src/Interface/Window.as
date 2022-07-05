@@ -13,6 +13,7 @@ class Window
         AddTab(EnvironmentTab());
 #if TMNEXT
         AddTab(CameraTab());
+        AddTab(SpecialTab());
 #endif
         AddTab(InterfaceTab());
     }

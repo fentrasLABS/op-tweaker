@@ -39,14 +39,26 @@ class Mania : Game
         InitNods();
     }
 
+    void RemoveVendorNods() override
+    {
+        @scene = null;
+        @city = null;
+        decoration.RemoveRange(0, decoration.Length);
+    }
+
     void ApplyVendorSettings() override
     {
-        camera.ZClipEnable = Setting_ZClip;
-        camera.ZClipValue = Setting_ZClipDistance;
-        camera.ClearColor = Setting_BackgroundColor;
-        camera.ClearColorEnable = !Setting_Background;
+        if (camera !is null) {
+            camera.ZClipEnable = Setting_ZClip;
+            camera.ZClipValue = Setting_ZClipDistance;
+            camera.ClearColor = Setting_BackgroundColor;
+            camera.ClearColorEnable = !Setting_Background;
+        }
         for (uint i = 0; i < decoration.Length; i++) {
-            decoration[i].IsVisible = Setting_Decoration;
+            auto item = decoration[i];
+            if (item !is null) {
+                decoration[i].IsVisible = Setting_Decoration;
+            }
         }
     }
 }
