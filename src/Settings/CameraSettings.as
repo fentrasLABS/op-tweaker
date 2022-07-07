@@ -24,7 +24,7 @@ RatioPriority Setting_RatioPriority = RatioPriority::Vertical;
 [Setting name="Aspect Ratio" category="Parameters"]
 bool Setting_AspectRatio = false;
 
-[Setting name="Aspect Ratio" category="Parameters"]
+[Setting name="Aspect Ratio Amount" category="Parameters"]
 float Setting_AspectRatioAmount = 1.333f; // 16:9
 
 // Quick Zoom
