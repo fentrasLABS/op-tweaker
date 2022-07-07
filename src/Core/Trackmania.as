@@ -36,6 +36,7 @@ class Mania : Game
     {
         if (camera !is null) {
             camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
+            camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
         }
         if (scene !is null && scene.Lights.Length > 0) {
             scene.Lights[0].Light.Color = Setting_LightingCar ? Setting_LightingCarColor : vec3(defaults["Lighting Car Color"]);
@@ -48,8 +49,12 @@ class Mania : Game
     void OverrideVendorSettings() override
     {
         if (camera !is null) {
-            if (Setting_ZClip)
+            if (Setting_ZClip) {
                 camera.FarZ = Setting_ZClipDistance;
+            }
+            if (Setting_AspectRatio) {
+                camera.Width_Height = Setting_AspectRatioAmount;
+            }
             if (Setting_FOV == FieldOfView::Simple) {
                 if (Setting_Wipeout && visState !is null) {
                     setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Setting_FOVAmount)) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Setting_FOVAmount;

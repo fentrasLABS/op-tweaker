@@ -1,3 +1,4 @@
+if #TMNEXT
 namespace Camera
 {
     const int MinimumFOV = 1;
@@ -14,6 +15,17 @@ float Setting_FOVAmount = 75.f;
 
 [Setting name="Field of View Rectangle" category="Parameters"]
 vec4 Setting_FOVRect = vec4(-1.f, -1.f, 1.f, 1.f);
+
+// Camera Ratio
+
+[Setting name="Ratio Priority" category="Parameters"]
+RatioPriority Setting_RatioPriority = RatioPriority::Vertical;
+
+[Setting name="Aspect Ratio" category="Parameters"]
+bool Setting_AspectRatio = false;
+
+[Setting name="Aspect Ratio" category="Parameters"]
+float Setting_AspectRatioAmount = 1.333f; // 16:9
 
 // Quick Zoom
 
@@ -38,9 +50,16 @@ enum FieldOfView
     Advanced
 }
 
+enum RatioPriority
+{
+    Vertical,
+    Horizontal
+}
+
 enum QuickZoom
 {
     Disabled,
     Simple,
     Advanced
 }
+#endif
