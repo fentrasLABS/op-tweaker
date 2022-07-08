@@ -10,10 +10,10 @@ int Setting_ResolutionWidth = 800;
 int Setting_ResolutionHeight = 600;
 
 [Setting name="Resolution Shortcut" category="Parameters"]
-Shortcut Setting_ResolutionShortcut = Shortcut::Disabled;
+Shortcut Setting_ResolutionShortcut = Shortcut::Toggle;
 
 [Setting name="Resolution Shortcut Key" category="Parameters"]
-VirtualKey Setting_ResolutionShortcutKey= VirtualKey::F1;
+VirtualKey Setting_ResolutionShortcutKey= VirtualKey::F10;
 
 // Draw Distance
 

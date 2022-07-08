@@ -84,6 +84,8 @@ class Mania : Game
 
     UI::InputBlocking VendorOnKeyPress(bool down, VirtualKey key) override
     {
+        // Needs refactoring to accept keys from all methods (e.g. screen resolution shortcut)
+        // Move to Game.as
         if (Setting_QuickZoomShortcut != Shortcut::Disabled && key == Setting_QuickZoomShortcutKey) {
             if (Setting_QuickZoomShortcut == Shortcut::Hold) {
                 Setting_QuickZoom = down ? QuickZoom::Simple : QuickZoom::Disabled;

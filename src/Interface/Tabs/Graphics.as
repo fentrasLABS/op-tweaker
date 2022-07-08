@@ -11,9 +11,10 @@ class GraphicsTab : Tab {
 			UI::BeginTooltip();
 			UI::Text("Custom screen resolution");
 			UI::Text("\\$777Works in windowed mode, but breaks OpenPlanet UI scaling.\\$z");
-			UI::Text("\\$ff0" + Icons::KeyboardO + " Keyboard shortcuts available\\$z");
-			UI::Text("\n\\$ff0Cutting Edge Version Note");
-			UI::Text("Remember the position of a checkbox because UI will move but controls will remain in the same place.");
+			//UI::Text("\\$ff0" + Icons::KeyboardO + " Keyboard shortcuts available\\$z");
+			UI::Text("\n\\$f00Preview Version Warning");
+			UI::Text("Move this window to top left corner first.");
+			UI::Text("Remember the position of a checkbox because UI will move but its controls will remain in the same place.");
 			UI::EndTooltip();
 		}
 
@@ -25,6 +26,31 @@ class GraphicsTab : Tab {
 		// UI::SameLine();
 		// UI::Text("Screen Resolution");
 		if (Setting_Resolution) UI::EndDisabled();
+
+		/*
+		if (UI::BeginCombo("Resolution Shortcut", tostring(Setting_ResolutionShortcut))) {
+			if (UI::Selectable("Disabled", false)) {
+				Setting_ResolutionShortcut = Shortcut::Disabled;
+			}
+			if (UI::Selectable("Hold", false)) {
+				Setting_ResolutionShortcut = Shortcut::Hold;
+			}
+			if (UI::Selectable("Toggle", false)) {
+				Setting_ResolutionShortcut = Shortcut::Toggle;
+			}
+			UI::EndCombo();
+		}
+
+        if (UI::BeginCombo("Resolution Key", tostring(Setting_ResolutionShortcutKey))) {
+			for (int i = 1; i < 255; i++) { // 255 is length of VirtualKey
+                if (tostring(VirtualKey(i)) == tostring(i)) continue; // thanks to NaNInf
+                if (UI::Selectable(tostring(VirtualKey(i)), false)) {
+                    Setting_ResolutionShortcutKey = VirtualKey(i);
+                }
+            }
+			UI::EndCombo();
+		}
+		*/
 
 		// Draw Distance
 
@@ -53,7 +79,7 @@ class GraphicsTab : Tab {
 #if TMNEXT
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
-			UI::Text("\\$ff0Cutting Edge Version Note");
+			UI::Text("\\$ff0Preview Version Note");
 			UI::Text("To fix decals being stuck on the screen switch to Free Camera,\nlook somewhere where you don't see any decals (e.g. sky)\nand enable this setting.");
 			UI::EndTooltip();
 		}
@@ -73,7 +99,7 @@ class GraphicsTab : Tab {
 #if TMNEXT
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
-			UI::Text("\\$ff0Cutting Edge Version Note");
+			UI::Text("\\$ff0Preview Version Note");
 			UI::Text("If lighting is too bright you can tweak it in Environment tab.");
 			UI::EndTooltip();
 		}
