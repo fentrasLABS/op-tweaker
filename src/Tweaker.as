@@ -55,7 +55,10 @@ void Update(float dt)
 	}
 }
 
-void VendorUpdate(float dt) { }
+UI::InputBlocking OnKeyPress(bool down, VirtualKey key)
+{
+	return game.OnKeyPress(down, key);
+}
 
 void Main()
 {

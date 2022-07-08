@@ -80,6 +80,16 @@ class Game : Vendor
 
     void VendorUpdate(float dt) { }
 
+    UI::InputBlocking OnKeyPress(bool down, VirtualKey key)
+    {
+        return VendorOnKeyPress(down, key);
+    }
+
+    UI::InputBlocking VendorOnKeyPress(bool down, VirtualKey key)
+    {
+        return UI::InputBlocking::DoNothing;
+    }
+
     void SaveDefaults()
     {
         if (scene !is null && scene.Lights.Length > 0) {

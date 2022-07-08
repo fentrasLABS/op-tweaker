@@ -55,13 +55,17 @@ class Mania : Game
             if (Setting_AspectRatio) {
                 camera.Width_Height = Setting_AspectRatioAmount;
             }
-            if (Setting_FOV == FieldOfView::Simple) {
-                if (Setting_Wipeout && visState !is null) {
-                    setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Setting_FOVAmount)) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Setting_FOVAmount;
-                    camera.Fov = currentFov;
-                } else {
-                    camera.Fov = Setting_FOVAmount;
+            if (Setting_QuickZoom != QuickZoom::Simple) {
+                if (Setting_FOV == FieldOfView::Simple) {
+                    if (Setting_Wipeout && visState !is null) {
+                        setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Setting_FOVAmount)) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Setting_FOVAmount;
+                        camera.Fov = currentFov;
+                    } else {
+                        camera.Fov = Setting_FOVAmount;
+                    }
                 }
+            } else {
+                camera.Fov = Setting_QuickZoomAmount;
             }
         }
     }
@@ -76,6 +80,21 @@ class Mania : Game
                 }
             }
         }
+    }
+
+    UI::InputBlocking VendorOnKeyPress(bool down, VirtualKey key) override
+    {
+        if (Setting_QuickZoomShortcut != Shortcut::Disabled && key == Setting_QuickZoomShortcutKey) {
+            if (Setting_QuickZoomShortcut == Shortcut::Hold) {
+                Setting_QuickZoom = down ? QuickZoom::Simple : QuickZoom::Disabled;
+                return UI::InputBlocking::DoNothing;
+            }
+            else if(Setting_QuickZoomShortcut == Shortcut::Toggle && down) {
+                Setting_QuickZoom = Setting_QuickZoom == QuickZoom::Simple ? QuickZoom::Disabled : QuickZoom::Simple;
+                return UI::InputBlocking::Block;
+            }
+        }
+        return UI::InputBlocking::DoNothing;
     }
 }
 #endif

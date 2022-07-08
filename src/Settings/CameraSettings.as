@@ -27,20 +27,6 @@ bool Setting_AspectRatio = false;
 [Setting name="Aspect Ratio Amount" category="Parameters"]
 float Setting_AspectRatioAmount = 1.333f; // 16:9
 
-// Quick Zoom
-
-[Setting name="Quick Zoom" category="Parameters"]
-QuickZoom Setting_QuickZoom = QuickZoom::Disabled;
-
-[Setting name="Quick Zoom Amount" category="Parameters"]
-int Setting_QuickZoomAmount = 50;
-
-[Setting name="Quick Zoom Shortcut" category="Parameters"]
-Shortcut Setting_QuickZoomShortcut = Shortcut::Disabled;
-
-[Setting name="Quick Zoom Shortcut Key" category="Parameters"]
-VirtualKey Setting_QuickZoomShortcutKey= VirtualKey::Z;
-
 // enums
 
 enum FieldOfView
@@ -54,12 +40,5 @@ enum RatioPriority
 {
     Vertical,
     Horizontal
-}
-
-enum QuickZoom
-{
-    Disabled,
-    Simple,
-    Advanced
 }
 #endif
