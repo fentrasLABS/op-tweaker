@@ -1,4 +1,4 @@
-if #TMNEXT
+#if TMNEXT
 namespace Camera
 {
     const int MinimumFOV = 1;
