@@ -3,6 +3,7 @@ namespace Camera
 {
     const int MinimumFOV = 1;
     const int MaximumFOV = 175;
+    const int DefaultFOV = 75;
 }
 
 // Field of View

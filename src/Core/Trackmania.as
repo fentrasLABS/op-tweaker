@@ -15,6 +15,11 @@ class Vendor
 
 class Mania : Game
 {
+    private bool IsFOVChanging()
+    {
+        return currentFov != setFov || Setting_FOV != FieldOfView::Default || Setting_Wipeout || Setting_QuickZoom != QuickZoom::Disabled;
+    }
+
     void AddVendorNods() override
     {
         @scene = app.GameScene.HackScene;
@@ -55,17 +60,19 @@ class Mania : Game
             if (Setting_AspectRatio) {
                 camera.Width_Height = Setting_AspectRatioAmount;
             }
-            if (Setting_QuickZoom != QuickZoom::Simple) {
-                if (Setting_FOV == FieldOfView::Simple) {
+            if (IsFOVChanging()) {
+                if (Setting_QuickZoom == QuickZoom::Simple) {
+                    setFov = Setting_QuickZoomAmount;
+                } else if (Setting_FOV != FieldOfView::Default) {
                     if (Setting_Wipeout && visState !is null) {
                         setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Setting_FOVAmount)) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Setting_FOVAmount;
-                        camera.Fov = currentFov;
                     } else {
-                        camera.Fov = Setting_FOVAmount;
+                        setFov = Setting_FOVAmount;
                     }
+                } else {
+                    setFov = Camera::DefaultFOV;
                 }
-            } else {
-                camera.Fov = Setting_QuickZoomAmount;
+                camera.Fov = currentFov;
             }
         }
     }
@@ -73,7 +80,7 @@ class Mania : Game
     void VendorUpdate(float dt) override
     {
         if (initialised) {
-            if (Setting_Wipeout) {
+            if (IsFOVChanging()) {
                 @visState = VehicleState::ViewingPlayerState();
                 if (visState !is null) {
                     currentFov = Math::Lerp(setFov, currentFov, 0.9f);

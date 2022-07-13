@@ -45,7 +45,7 @@ class SpecialTab : Tab {
 		}
 
 		UI::SameLine();
-		Setting_QuickZoomAmount = float(UI::SliderInt("Zoom FoV", int(Setting_QuickZoomAmount), Camera::MinimumFOV, Setting_FOV == FieldOfView::Default ? 75 : int(Setting_FOVAmount)));
+		Setting_QuickZoomAmount = float(UI::SliderInt("Zoom FoV", int(Setting_QuickZoomAmount), Camera::MinimumFOV, Camera::MaximumFOV));
 
         if (UI::BeginCombo("Quick Zoom Shortcut", tostring(Setting_QuickZoomShortcut))) {
 			if (UI::Selectable("Disabled", false)) {
