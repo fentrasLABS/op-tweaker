@@ -10,9 +10,6 @@ class CameraTab : Tab {
             Setting_FOV = FieldOfView::Simple;
         } else {
             Setting_FOV = FieldOfView::Default;
-            if (Setting_Wipeout) {
-                Setting_Wipeout = false;
-            }
         }
 
 		if (UI::IsItemHovered()) {

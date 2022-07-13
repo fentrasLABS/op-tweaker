@@ -8,9 +8,6 @@ class SpecialTab : Tab {
 
 		if (UI::Checkbox("##Wipeout Mode", Setting_Wipeout)) {
             Setting_Wipeout = true;
-            if (Setting_FOV == FieldOfView::Default) {
-                Setting_FOV = FieldOfView::Simple;
-            }
         } else {
             Setting_Wipeout = false;
         }
@@ -18,16 +15,13 @@ class SpecialTab : Tab {
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
 			UI::Text("Field of View depends on the speed");
-            if (Setting_FOV == FieldOfView::Default) {
-                UI::Text("\\$ff0Requires Field of View setting enabled!\\$z");
-            }
             UI::Text("\\$ff0Please use \"Alternate Cockpit View\" for better experience.\\$z");
             UI::Text("\\$ff0FoV change is a moderately rapid when respawning (for now).\\$z");
 			UI::EndTooltip();
 		}
 
 		UI::SameLine();
-		Setting_WipeoutMax = float(UI::SliderInt("Wipeout", int(Setting_WipeoutMax), int(Setting_FOVAmount), Camera::MaximumFOV));
+		Setting_WipeoutMax = float(UI::SliderInt("Wipeout", int(Setting_WipeoutMax), Trackmania::GetPreferredFOV(), Camera::MaximumFOV));
 
         // Quick Zoom -- needs shortcuts to choose between keyboard, mouse wheel and controller (or all)
 
@@ -40,7 +34,9 @@ class SpecialTab : Tab {
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
 			UI::Text("Quickly zoom at the center");
-            UI::Text("\\$ff0Press " + tostring(Setting_QuickZoomShortcutKey) + " to activate Quick Zoom mode.\\$z");
+            if (Setting_QuickZoomShortcut != Shortcut::Disabled) {
+                UI::Text("\\$ff0Press " + tostring(Setting_QuickZoomShortcutKey) + " to activate Quick Zoom mode.\\$z");
+            }
 			UI::EndTooltip();
 		}
 

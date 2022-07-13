@@ -3,6 +3,8 @@ namespace Trackmania
 {
     const float MinimumFrontSpeed = 10.f;
     const float MaximumFrontSpeed = 275.f;
+
+    int GetPreferredFOV() { return Setting_FOV != FieldOfView::Default ? Setting_FOVAmount : Camera::DefaultFOV; }
 }
 
 class Vendor
@@ -15,10 +17,7 @@ class Vendor
 
 class Mania : Game
 {
-    private bool IsFOVChanging()
-    {
-        return currentFov != setFov || Setting_FOV != FieldOfView::Default || Setting_Wipeout || Setting_QuickZoom != QuickZoom::Disabled;
-    }
+    private bool IsFOVChanging() { return currentFov != setFov || Setting_FOV != FieldOfView::Default || Setting_Wipeout || Setting_QuickZoom != QuickZoom::Disabled; }
 
     void AddVendorNods() override
     {
@@ -63,12 +62,10 @@ class Mania : Game
             if (IsFOVChanging()) {
                 if (Setting_QuickZoom == QuickZoom::Simple) {
                     setFov = Setting_QuickZoomAmount;
+                } else if (Setting_Wipeout && visState !is null) {
+                    setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Trackmania::GetPreferredFOV())) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Trackmania::GetPreferredFOV();
                 } else if (Setting_FOV != FieldOfView::Default) {
-                    if (Setting_Wipeout && visState !is null) {
-                        setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Setting_FOVAmount)) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Setting_FOVAmount;
-                    } else {
-                        setFov = Setting_FOVAmount;
-                    }
+                    setFov = Setting_FOVAmount;
                 } else {
                     setFov = Camera::DefaultFOV;
                 }
