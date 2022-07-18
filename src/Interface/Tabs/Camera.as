@@ -31,19 +31,19 @@ class CameraTab : Tab {
 			// Change to proper UI
 			UI::Columns(3, "##Field of View Rectangle Min Table", false);
 			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
-			Setting_FOVRect.x = UI::SliderFloat("##FOV Rect Min X", Setting_FOVRect.x, -5.f, 5.f);
+			Setting_FOVRect.x = UI::SliderFloat("##FOV Rect Min X", Setting_FOVRect.x, -10.f, 10.f);
 			UI::NextColumn();
 			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
-			Setting_FOVRect.y = UI::SliderFloat("##FOV Rect Min Y", Setting_FOVRect.y, -5.f, 5.f);
+			Setting_FOVRect.y = UI::SliderFloat("##FOV Rect Min Y", Setting_FOVRect.y, -10.f, Setting_FOVRect.w - 0.001f);
 			UI::NextColumn();
 			UI::Text("FovRectMin");
 			UI::NextColumn();
 			UI::Columns(3, "##Field of View Rectangle Min Table", false);
 			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
-			Setting_FOVRect.z = UI::SliderFloat("##FOV Rect Max X", Setting_FOVRect.z, -5.f, 5.f);
+			Setting_FOVRect.z = UI::SliderFloat("##FOV Rect Max X", Setting_FOVRect.z, -10.f, 10.f);
 			UI::NextColumn();
 			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
-			Setting_FOVRect.w = UI::SliderFloat("##FOV Rect Max Y", Setting_FOVRect.w, -5.f, 5.f);
+			Setting_FOVRect.w = UI::SliderFloat("##FOV Rect Max Y", Setting_FOVRect.w, Setting_FOVRect.y + 0.001f, 10.f);
 			UI::NextColumn();
 			UI::Text("FovRectMax");
 			UI::Columns(1);
