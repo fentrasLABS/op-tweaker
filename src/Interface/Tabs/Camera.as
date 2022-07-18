@@ -6,11 +6,18 @@ class CameraTab : Tab {
     {
         // Field of View
 
-		if (UI::Checkbox("##Field of View Toggle", Setting_FOV == FieldOfView::Simple)) {
-            Setting_FOV = FieldOfView::Simple;
-        } else {
-            Setting_FOV = FieldOfView::Default;
-        }
+		if (UI::BeginCombo("Field of View", tostring(Setting_FOV))) {
+			if (UI::Selectable("Default", false)) {
+				Setting_FOV = FieldOfView::Default;
+			}
+			if (UI::Selectable("Simple", false)) {
+				Setting_FOV = FieldOfView::Simple;
+			}
+			if (UI::Selectable("Advanced", false)) {
+				Setting_FOV = FieldOfView::Advanced;
+			}
+			UI::EndCombo();
+		}
 
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
@@ -18,8 +25,29 @@ class CameraTab : Tab {
 			UI::EndTooltip();
 		}
 
-		UI::SameLine();
-		Setting_FOVAmount = float(UI::SliderInt("Field of View", int(Setting_FOVAmount), Camera::MinimumFOV, Camera::MaximumFOV));
+		if (Setting_FOV == FieldOfView::Simple) {
+			Setting_FOVAmount = float(UI::SliderInt("FOV Amount", int(Setting_FOVAmount), Camera::MinimumFOV, Camera::MaximumFOV));
+		} else if (Setting_FOV == FieldOfView::Advanced) {
+			// Change to proper UI
+			UI::Columns(3, "##Field of View Rectangle Min Table", false);
+			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
+			Setting_FOVRect.x = UI::SliderFloat("##FOV Rect Min X", Setting_FOVRect.x, -5.f, 5.f);
+			UI::NextColumn();
+			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
+			Setting_FOVRect.y = UI::SliderFloat("##FOV Rect Min Y", Setting_FOVRect.y, -5.f, 5.f);
+			UI::NextColumn();
+			UI::Text("FovRectMin");
+			UI::NextColumn();
+			UI::Columns(3, "##Field of View Rectangle Min Table", false);
+			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
+			Setting_FOVRect.z = UI::SliderFloat("##FOV Rect Max X", Setting_FOVRect.z, -5.f, 5.f);
+			UI::NextColumn();
+			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
+			Setting_FOVRect.w = UI::SliderFloat("##FOV Rect Max Y", Setting_FOVRect.w, -5.f, 5.f);
+			UI::NextColumn();
+			UI::Text("FovRectMax");
+			UI::Columns(1);
+		}
 
         // Ratio Priority
 

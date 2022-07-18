@@ -41,6 +41,13 @@ class Mania : Game
         if (camera !is null) {
             camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
             camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
+            if (Setting_FOV == FieldOfView::Advanced) {
+                camera.FovRect = true;
+                camera.FovRectMin = vec2(Setting_FOVRect.x, Setting_FOVRect.y);
+                camera.FovRectMax = vec2(Setting_FOVRect.z, Setting_FOVRect.w);
+            } else {
+                camera.FovRect = false;
+            }
         }
         if (scene !is null && scene.Lights.Length > 0) {
             scene.Lights[0].Light.Color = Setting_LightingCar ? Setting_LightingCarColor : vec3(defaults["Lighting Car Color"]);
@@ -64,7 +71,7 @@ class Mania : Game
                     setFov = Setting_QuickZoomAmount;
                 } else if (Setting_Wipeout && visState !is null) {
                     setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Trackmania::GetPreferredFOV())) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Trackmania::GetPreferredFOV();
-                } else if (Setting_FOV != FieldOfView::Default) {
+                } else if (Setting_FOV == FieldOfView::Simple) {
                     setFov = Setting_FOVAmount;
                 } else {
                     setFov = Camera::DefaultFOV;
