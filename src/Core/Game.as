@@ -82,7 +82,19 @@ class Game : Vendor
 
     UI::InputBlocking OnKeyPress(bool down, VirtualKey key)
     {
-        return VendorOnKeyPress(down, key);
+        bool block = false;
+        if (key == Setting_ResolutionShortcutKey && Setting_ResolutionShortcut != Shortcut::Disabled) {
+            if (Setting_ResolutionShortcut == Shortcut::Hold) {
+                Setting_Resolution = down ? true : false;
+            } else if (Setting_ResolutionShortcut == Shortcut::Toggle && down) {
+                Setting_Resolution = !Setting_Resolution;
+                block = true;
+            }
+        } else {
+            return VendorOnKeyPress(down, key);
+        }
+        ApplySettings();
+        return block ? UI::InputBlocking::Block : UI::InputBlocking::DoNothing;
     }
 
     UI::InputBlocking VendorOnKeyPress(bool down, VirtualKey key)

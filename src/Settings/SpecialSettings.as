@@ -12,6 +12,9 @@ float Setting_WipeoutMax = 150.f;
 [Setting name="Quick Zoom" category="Parameters"]
 QuickZoom Setting_QuickZoom = QuickZoom::Disabled;
 
+[Setting name="Quick Zoom Active" category="Parameters"]
+bool Setting_QuickZoomActive = false;
+
 [Setting name="Quick Zoom Amount" category="Parameters"]
 float Setting_QuickZoomAmount = 50.f;
 
@@ -24,7 +27,7 @@ VirtualKey Setting_QuickZoomShortcutKey= VirtualKey::Z;
 enum QuickZoom
 {
     Disabled,
-    Simple
-    // Advanced
+    Simple,
+    Advanced
 }
 #endif

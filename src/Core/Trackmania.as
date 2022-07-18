@@ -4,7 +4,7 @@ namespace Trackmania
     const float MinimumFrontSpeed = 10.f;
     const float MaximumFrontSpeed = 275.f;
 
-    int GetPreferredFOV() { return Setting_FOV != FieldOfView::Default ? Setting_FOVAmount : Camera::DefaultFOV; }
+    int GetPreferredFOV() { return Setting_FOV == FieldOfView::Simple ? int(Setting_FOVAmount) : Camera::DefaultFOV; }
 }
 
 class Vendor
@@ -17,7 +17,13 @@ class Vendor
 
 class Mania : Game
 {
-    private bool IsFOVChanging() { return currentFov != setFov || Setting_FOV != FieldOfView::Default || Setting_Wipeout || Setting_QuickZoom != QuickZoom::Disabled; }
+    private bool IsFOVChanging()
+    {
+        return currentFov != setFov
+            || Setting_FOV == FieldOfView::Simple
+            || Setting_Wipeout
+            || Setting_QuickZoom != QuickZoom::Disabled;
+    }
 
     void AddVendorNods() override
     {
@@ -67,8 +73,10 @@ class Mania : Game
                 camera.Width_Height = Setting_AspectRatioAmount;
             }
             if (IsFOVChanging()) {
-                if (Setting_QuickZoom == QuickZoom::Simple) {
-                    setFov = Setting_QuickZoomAmount;
+                if (Setting_QuickZoomActive) {
+                    if (Setting_QuickZoom == QuickZoom::Simple) {
+                        setFov = Setting_QuickZoomAmount;
+                    }
                 } else if (Setting_Wipeout && visState !is null) {
                     setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Trackmania::GetPreferredFOV())) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Trackmania::GetPreferredFOV();
                 } else if (Setting_FOV == FieldOfView::Simple) {
@@ -97,17 +105,17 @@ class Mania : Game
     {
         // Needs refactoring to accept keys from all methods (e.g. screen resolution shortcut)
         // Move to Game.as
-        if (Setting_QuickZoomShortcut != Shortcut::Disabled && key == Setting_QuickZoomShortcutKey) {
+        bool block = false;
+        if (Setting_QuickZoom != QuickZoom::Disabled && Setting_QuickZoomShortcut != Shortcut::Disabled && key == Setting_QuickZoomShortcutKey) {
             if (Setting_QuickZoomShortcut == Shortcut::Hold) {
-                Setting_QuickZoom = down ? QuickZoom::Simple : QuickZoom::Disabled;
-                return UI::InputBlocking::DoNothing;
-            }
-            else if(Setting_QuickZoomShortcut == Shortcut::Toggle && down) {
-                Setting_QuickZoom = Setting_QuickZoom == QuickZoom::Simple ? QuickZoom::Disabled : QuickZoom::Simple;
-                return UI::InputBlocking::Block;
+                Setting_QuickZoomActive = down ? true : false;
+            } else if (Setting_QuickZoomShortcut == Shortcut::Toggle && down) {
+                Setting_QuickZoomActive = !Setting_QuickZoomActive;
+                block = true;
             }
         }
-        return UI::InputBlocking::DoNothing;
+        ApplySettings();
+        return block ? UI::InputBlocking::Block : UI::InputBlocking::DoNothing;
     }
 }
 #endif

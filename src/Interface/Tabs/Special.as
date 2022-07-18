@@ -25,45 +25,60 @@ class SpecialTab : Tab {
 
         // Quick Zoom -- needs shortcuts to choose between keyboard, mouse wheel and controller (or all)
 
-		if (UI::Checkbox("##Quick Zoom Mode", Setting_QuickZoom == QuickZoom::Simple)) {
-            Setting_QuickZoom = QuickZoom::Simple;
-        } else {
-            Setting_QuickZoom = QuickZoom::Disabled;
-        }
-
-		if (UI::IsItemHovered()) {
-			UI::BeginTooltip();
-			UI::Text("Quickly zoom at the center");
-            if (Setting_QuickZoomShortcut != Shortcut::Disabled) {
-                UI::Text("\\$ff0Press " + tostring(Setting_QuickZoomShortcutKey) + " to activate Quick Zoom mode.\\$z");
-            }
-			UI::EndTooltip();
-		}
-
-		UI::SameLine();
-		Setting_QuickZoomAmount = float(UI::SliderInt("Zoom FoV", int(Setting_QuickZoomAmount), Camera::MinimumFOV, Camera::MaximumFOV));
-
-        if (UI::BeginCombo("Quick Zoom Shortcut", tostring(Setting_QuickZoomShortcut))) {
+		if (UI::BeginCombo("Quick Zoom", tostring(Setting_QuickZoom))) {
 			if (UI::Selectable("Disabled", false)) {
-				Setting_QuickZoomShortcut = Shortcut::Disabled;
+				Setting_QuickZoom = QuickZoom::Disabled;
 			}
-			if (UI::Selectable("Hold", false)) {
-				Setting_QuickZoomShortcut = Shortcut::Hold;
+			if (UI::Selectable("Simple", false)) {
+				Setting_QuickZoom = QuickZoom::Simple;
 			}
-			if (UI::Selectable("Toggle", false)) {
-				Setting_QuickZoomShortcut = Shortcut::Toggle;
+			if (UI::Selectable("Advanced", false)) {
+				Setting_QuickZoom = QuickZoom::Advanced;
 			}
 			UI::EndCombo();
 		}
 
-        if (UI::BeginCombo("Quick Zoom Key", tostring(Setting_QuickZoomShortcutKey))) {
-			for (int i = 1; i < 255; i++) { // 255 is length of VirtualKey
-                if (tostring(VirtualKey(i)) == tostring(i)) continue; // thanks to NaNInf
-                if (UI::Selectable(tostring(VirtualKey(i)), false)) {
-                    Setting_QuickZoomShortcutKey = VirtualKey(i);
-                }
-            }
-			UI::EndCombo();
+		if (Setting_QuickZoom != QuickZoom::Disabled) {
+			if (Setting_QuickZoom == QuickZoom::Simple) {
+				Setting_QuickZoomActive = UI::Checkbox("##Quick Zoom Active", Setting_QuickZoomActive);
+
+				if (UI::IsItemHovered()) {
+					UI::BeginTooltip();
+					UI::Text("Quickly zoom at the center");
+					if (Setting_QuickZoomShortcut != Shortcut::Disabled) {
+						UI::Text("\\$ff0Press " + tostring(Setting_QuickZoomShortcutKey) + " to toggle Quick Zoom mode.\\$z");
+					}
+					UI::EndTooltip();
+				}
+
+				UI::SameLine();
+				Setting_QuickZoomAmount = float(UI::SliderInt("Zoom FoV", int(Setting_QuickZoomAmount), Camera::MinimumFOV, Camera::MaximumFOV));
+			}
+
+			if (UI::BeginCombo("Quick Zoom Shortcut", tostring(Setting_QuickZoomShortcut))) {
+				if (UI::Selectable("Disabled", false)) {
+					Setting_QuickZoomShortcut = Shortcut::Disabled;
+				}
+				if (UI::Selectable("Hold", false)) {
+					Setting_QuickZoomShortcut = Shortcut::Hold;
+				}
+				if (UI::Selectable("Toggle", false)) {
+					Setting_QuickZoomShortcut = Shortcut::Toggle;
+				}
+				UI::EndCombo();
+			}
+
+			if (Setting_QuickZoomShortcut != Shortcut::Disabled) {
+				if (UI::BeginCombo("Quick Zoom Key", tostring(Setting_QuickZoomShortcutKey))) {
+					for (int i = 1; i < 255; i++) { // 255 is length of VirtualKey
+						if (tostring(VirtualKey(i)) == tostring(i)) continue; // thanks to NaNInf
+						if (UI::Selectable(tostring(VirtualKey(i)), false)) {
+							Setting_QuickZoomShortcutKey = VirtualKey(i);
+						}
+					}
+					UI::EndCombo();
+				}
+			}
 		}
     }
 }
