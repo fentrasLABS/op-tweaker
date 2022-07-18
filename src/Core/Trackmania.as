@@ -47,12 +47,15 @@ class Mania : Game
         if (camera !is null) {
             camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
             camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
-            if (Setting_FOV == FieldOfView::Advanced) {
-                camera.FovRect = true;
-                camera.FovRectMin = vec2(Setting_FOVRect.x, Setting_FOVRect.y);
-                camera.FovRectMax = vec2(Setting_FOVRect.z, Setting_FOVRect.w);
-            } else {
-                camera.FovRect = false;
+            // Temporary solution, it should work in conjunction with FieldOfView::Advanced (just like FieldOfView::Simple)
+            if (Setting_QuickZoom != QuickZoom::Advanced) {
+                if (Setting_FOV == FieldOfView::Advanced) {
+                    camera.FovRect = true;
+                    camera.FovRectMin = vec2(Setting_FOVRect.x, Setting_FOVRect.y);
+                    camera.FovRectMax = vec2(Setting_FOVRect.z, Setting_FOVRect.w);
+                } else {
+                    camera.FovRect = false;
+                }
             }
         }
         if (scene !is null && scene.Lights.Length > 0) {
@@ -98,13 +101,26 @@ class Mania : Game
                     currentFov = Math::Lerp(setFov, currentFov, 0.9f);
                 }
             }
+            // Temporary solution, it should work in conjunction with FieldOfView::Advanced (just like FieldOfView::Simple)
+            if (Setting_FOV != FieldOfView::Advanced) {
+                if (Setting_QuickZoom == QuickZoom::Advanced && camera !is null) {
+                    camera.FovRect = true;
+                    vec2 mousePos = UI::GetMousePos();
+                    vec2 windowSize = vec2(Draw::GetWidth(), Draw::GetHeight());
+                    mousePos = vec2(Math::Clamp(mousePos.x, 0, windowSize.x), Math::Clamp(mousePos.y, 0, windowSize.y));
+                    float calcPosX = ((mousePos.x * (1 - -1)) / windowSize.x) + -1;
+                    float calcPosY = ((mousePos.y * (1 - -1)) / windowSize.y) + -1;
+                    camera.FovRectMin = vec2(calcPosX - 1, calcPosY - 1);
+                    camera.FovRectMax = vec2(calcPosX + 1, calcPosY + 1);
+                } else {
+                    camera.FovRect = false;
+                }
+            }
         }
     }
 
     UI::InputBlocking VendorOnKeyPress(bool down, VirtualKey key) override
     {
-        // Needs refactoring to accept keys from all methods (e.g. screen resolution shortcut)
-        // Move to Game.as
         bool block = false;
         if (Setting_QuickZoom != QuickZoom::Disabled && Setting_QuickZoomShortcut != Shortcut::Disabled && key == Setting_QuickZoomShortcutKey) {
             if (Setting_QuickZoomShortcut == Shortcut::Hold) {
