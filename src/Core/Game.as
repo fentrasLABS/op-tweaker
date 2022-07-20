@@ -124,6 +124,7 @@ class Game : Vendor
     void SaveDefaults()
     {
         if (scene !is null && scene.Lights.Length > 0) {
+            // Bug: setting a different lighting and entering the game won't save default values
             defaults.Set("Lighting Car Color", scene.Lights[0].Light.Color);
             defaults.Set("Lighting Car Intensity", scene.Lights[0].Light.Intensity);
             defaults.Set("Lighting World Color", scene.Lights[1].Light.Color);
