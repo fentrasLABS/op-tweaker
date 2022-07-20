@@ -29,11 +29,6 @@ void RenderInterface()
 			game.ApplySettings();
 		}
 	}
-	if (Setting_FPS) {
-		UI::Begin("\\$o\\$wFPS Counter", Setting_FPS, UI::WindowFlags::AlwaysAutoResize + UI::WindowFlags::NoTitleBar + UI::WindowFlags::NoDocking);
-		UI::Text(tostring(int(game.view.AverageFps)));
-		UI::End();
-	}
 }
 
 void Render()
@@ -42,6 +37,7 @@ void Render()
 		if (game.app.GameScene is null) {
 			game.RemoveNods();
 		}
+		game.Render();
 		game.OverrideSettings();
 	} else {
 		game.AddNods();

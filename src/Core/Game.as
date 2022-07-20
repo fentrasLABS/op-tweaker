@@ -73,6 +73,15 @@ class Game : Vendor
 
     void OverrideVendorSettings() { }
 
+    void Render()
+    {
+        if (Setting_FPS) {
+            UI::Begin("\\$o\\$wFPS Counter", Setting_FPS, UI::WindowFlags::AlwaysAutoResize + UI::WindowFlags::NoTitleBar + UI::WindowFlags::NoDocking);
+            UI::Text(tostring(int(game.view.AverageFps)));
+            UI::End();
+        }
+    }
+
     void Update(float dt)
     {
         VendorUpdate(dt);
