@@ -111,6 +111,16 @@ class Game : Vendor
         return UI::InputBlocking::DoNothing;
     }
 
+    UI::InputBlocking OnMouseWheel(int x, int y)
+    {
+        return VendorOnMouseWheel(x, y);
+    }
+
+    UI::InputBlocking VendorOnMouseWheel(int x, int y)
+    {
+        return UI::InputBlocking::DoNothing;
+    }
+
     void SaveDefaults()
     {
         if (scene !is null && scene.Lights.Length > 0) {

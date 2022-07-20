@@ -56,6 +56,11 @@ UI::InputBlocking OnKeyPress(bool down, VirtualKey key)
 	return game.OnKeyPress(down, key);
 }
 
+UI::InputBlocking OnMouseWheel(int x, int y)
+{
+	return game.OnMouseWheel(x, y);
+}
+
 void Main()
 {
 	@game = Mania();

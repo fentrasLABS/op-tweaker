@@ -28,7 +28,7 @@ class CameraTab : Tab {
 		if (Setting_FOV == FieldOfView::Simple) {
 			Setting_FOVAmount = float(UI::SliderInt("FOV Amount", int(Setting_FOVAmount), Camera::MinimumFOV, Camera::MaximumFOV));
 		} else if (Setting_FOV == FieldOfView::Advanced) {
-			// Change to proper UI
+			// Change to proper UI and add position/zoom picker
 			UI::Columns(3, "##Field of View Rectangle Min Table", false);
 			UI::SetNextItemWidth((UI::GetWindowSize().x / 3) - 16);
 			Setting_FOVRect.x = UI::SliderFloat("##FOV Rect Min X", Setting_FOVRect.x, -10.f, 10.f);

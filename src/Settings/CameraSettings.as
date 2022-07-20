@@ -4,6 +4,10 @@ namespace Camera
     const int MinimumFOV = 1;
     const int MaximumFOV = 175;
     const int DefaultFOV = 75;
+
+    const int MinimumRectFOV = 1;
+    const int MaximumRectFOV = 100;
+    const vec4 DefaultRectFOV = vec4(-1.f, -1.f, 1.f, 1.f);
 }
 
 // Field of View

@@ -39,20 +39,30 @@ class SpecialTab : Tab {
 		}
 
 		if (Setting_QuickZoom != QuickZoom::Disabled) {
-			if (Setting_QuickZoom == QuickZoom::Simple) {
-				Setting_QuickZoomActive = UI::Checkbox("##Quick Zoom Active", Setting_QuickZoomActive);
+			Setting_QuickZoomActive = UI::Checkbox("##Quick Zoom Active", Setting_QuickZoomActive);
 
-				if (UI::IsItemHovered()) {
-					UI::BeginTooltip();
-					UI::Text("Quickly zoom at the center");
-					if (Setting_QuickZoomShortcut != Shortcut::Disabled) {
-						UI::Text("\\$ff0Press " + tostring(Setting_QuickZoomShortcutKey) + " to toggle Quick Zoom mode.\\$z");
-					}
-					UI::EndTooltip();
+			if (UI::IsItemHovered()) {
+				UI::BeginTooltip();
+				UI::Text("Quickly zoom at the center");
+				if (Setting_QuickZoomShortcut != Shortcut::Disabled) {
+					UI::Text("\\$ff0Press " + tostring(Setting_QuickZoomShortcutKey) + " to toggle Quick Zoom mode.\\$z");
 				}
+				UI::EndTooltip();
+			}
 
-				UI::SameLine();
-				Setting_QuickZoomAmount = float(UI::SliderInt("Zoom FoV", int(Setting_QuickZoomAmount), Camera::MinimumFOV, Camera::MaximumFOV));
+			UI::SameLine();
+			if (Setting_QuickZoom == QuickZoom::Simple) {
+				Setting_QuickZoomSimpleAmount = float(UI::SliderInt("Zoom FoV", int(Setting_QuickZoomSimpleAmount), Camera::MinimumFOV, Camera::MaximumFOV));
+			} else if (Setting_QuickZoom == QuickZoom::Advanced) {
+				Setting_QuickZoomAdvancedAmount = UI::SliderFloat("Zoom Amount", Setting_QuickZoomAdvancedAmount, QuickZoom::MinimumAmount, QuickZoom::MaximumAmount);
+			}
+
+			Setting_QuickZoomScroll = UI::Checkbox("Use Scrolling", Setting_QuickZoomScroll);
+			if (UI::IsItemHovered()) {
+				UI::BeginTooltip();
+				UI::Text("Use your mouse wheel or scrolling motion to quickly zoom in or out");
+				UI::Text("\\$ff0Scrolling also affects Field of View in Free Camera.\\$z");
+				UI::EndTooltip();
 			}
 
 			if (UI::BeginCombo("Quick Zoom Shortcut", tostring(Setting_QuickZoomShortcut))) {

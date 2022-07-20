@@ -11,18 +11,43 @@ class Vendor
 {
     CScene@ scene;
     CSceneVehicleVisState@ visState;
+    bool initFov;
     float setFov;
     float currentFov;
+    bool initRectFov;
+    vec4 setRectFov;
+    vec4 currentRectFov;
+    FieldOfView currentSettingFOV;
+    QuickZoom currentSettingQuickZoom;
 }
 
 class Mania : Game
 {
-    private bool IsFOVChanging()
+    private bool FOVChanging()
     {
-        return currentFov != setFov
-            || Setting_FOV == FieldOfView::Simple
+        return Math::Abs(currentFov - setFov) > 1e-4 // Thanks to NaNInf
             || Setting_Wipeout
-            || Setting_QuickZoom != QuickZoom::Disabled;
+            || Setting_FOV == FieldOfView::Simple
+            || Setting_FOV != currentSettingFOV
+            || Setting_QuickZoom == QuickZoom::Simple
+            || Setting_QuickZoom != currentSettingQuickZoom;
+    }
+
+    private bool IsRectFOVChanging()
+    {
+        return Math::Abs(currentRectFov.x - setRectFov.x) > 1e-4
+            || Math::Abs(currentRectFov.y - setRectFov.y) > 1e-4
+            || Math::Abs(currentRectFov.z - setRectFov.z) > 1e-4
+            || Math::Abs(currentRectFov.w - setRectFov.w) > 1e-4
+            || Setting_FOV == FieldOfView::Advanced
+            || Setting_FOV != currentSettingFOV
+            || Setting_QuickZoom == QuickZoom::Advanced
+            || Setting_QuickZoom != currentSettingQuickZoom;
+    }
+
+    private vec4 GetCameraFovRect(CHmsCamera@ cam)
+    {
+        return vec4(camera.FovRectMin.x, camera.FovRectMin.y, camera.FovRectMax.x, camera.FovRectMax.y);
     }
 
     void AddVendorNods() override
@@ -31,8 +56,14 @@ class Mania : Game
         @camera = view.Cameras[0];
         @clouds = cast<CSceneMobilClouds>(scene.Mobils[1]).Clouds;
         @skybox = scene.Mobils[0];
-        currentFov = Setting_FOVAmount;
+        currentSettingFOV = Setting_FOV;
+        currentSettingQuickZoom = Setting_QuickZoom;
+        initFov = false;
+        initRectFov = false;
+        currentFov = camera.Fov;
         setFov = currentFov;
+        currentRectFov = GetCameraFovRect(camera);
+        setRectFov = currentRectFov;
         InitNods();
     }
 
@@ -49,15 +80,10 @@ class Mania : Game
             camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
             camera.ClearColor = Setting_BackgroundColor;
             camera.ClearColorEnable = !Setting_Background;
-            // Temporary solution, it should work in conjunction with FieldOfView::Advanced (just like FieldOfView::Simple)
-            if (Setting_QuickZoom != QuickZoom::Advanced) {
-                if (Setting_FOV == FieldOfView::Advanced) {
-                    camera.FovRect = true;
-                    camera.FovRectMin = vec2(Setting_FOVRect.x, Setting_FOVRect.y);
-                    camera.FovRectMax = vec2(Setting_FOVRect.z, Setting_FOVRect.w);
-                } else {
-                    camera.FovRect = false;
-                }
+            if (IsRectFOVChanging()) {
+                camera.FovRect = true;
+            } else {
+                camera.FovRect = false;
             }
         }
         if (scene !is null && scene.Lights.Length > 0) {
@@ -77,46 +103,60 @@ class Mania : Game
             if (Setting_AspectRatio) {
                 camera.Width_Height = Setting_AspectRatioAmount;
             }
-            if (IsFOVChanging()) {
-                if (Setting_QuickZoomActive) {
-                    if (Setting_QuickZoom == QuickZoom::Simple) {
-                        setFov = Setting_QuickZoomAmount;
-                    }
+            if (FOVChanging()) {
+                if (!initFov) {
+                    currentFov = camera.Fov;
+                    initFov = true;
+                }
+                if (Setting_QuickZoomActive && Setting_QuickZoom == QuickZoom::Simple) {
+                    setFov = Setting_QuickZoomSimpleAmount;
                 } else if (Setting_Wipeout && visState !is null) {
                     setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Trackmania::GetPreferredFOV())) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Trackmania::GetPreferredFOV();
                 } else if (Setting_FOV == FieldOfView::Simple) {
                     setFov = Setting_FOVAmount;
                 } else {
-                    setFov = Camera::DefaultFOV;
+                    setFov = camera.Fov;
                 }
                 camera.Fov = currentFov;
+            } else if (initFov) {
+                initFov = false;
             }
+            if (IsRectFOVChanging()) {
+                if (!initRectFov) {
+                    currentRectFov = GetCameraFovRect(camera);
+                    initRectFov = true;
+                }
+                if (Setting_QuickZoomActive && Setting_QuickZoom == QuickZoom::Advanced) {
+                    vec2 mousePos = UI::GetMousePos();
+                    vec2 windowSize = vec2(Math::Clamp(Draw::GetWidth(), 1, 99999), Math::Clamp(Draw::GetHeight(), 1, 99999));
+                    mousePos = vec2(Math::Clamp(mousePos.x, 1, windowSize.x), Math::Clamp(mousePos.y, 1, windowSize.y));
+                    float calcPosX = ((mousePos.x * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.x) + -Setting_QuickZoomAdvancedAmount;
+                    float calcPosY = ((mousePos.y * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.y) + -Setting_QuickZoomAdvancedAmount;
+                    vec2 rectMin = vec2(calcPosX - Setting_QuickZoomAdvancedAmount, calcPosY - Setting_QuickZoomAdvancedAmount);
+                    vec2 rectMax = vec2(calcPosX + Setting_QuickZoomAdvancedAmount, calcPosY + Setting_QuickZoomAdvancedAmount);
+                    setRectFov = vec4(rectMin.x, rectMin.y, rectMax.x, rectMax.y);
+                } else if (Setting_FOV == FieldOfView::Advanced) {
+                    setRectFov = Setting_FOVRect;
+                } else {
+                    setRectFov = Camera::DefaultRectFOV;
+                }
+                camera.FovRectMin = vec2(currentRectFov.x, currentRectFov.y);
+                camera.FovRectMax = vec2(currentRectFov.z, currentRectFov.w);
+            } else if (initRectFov) {
+                initRectFov = false;
+            }
+            if (Setting_FOV != currentSettingFOV) currentSettingFOV = Setting_FOV;
+            if (Setting_QuickZoom != currentSettingQuickZoom) currentSettingQuickZoom = Setting_QuickZoom;
         }
     }
 
     void VendorUpdate(float dt) override
     {
         if (initialised) {
-            if (IsFOVChanging()) {
-                @visState = VehicleState::ViewingPlayerState();
-                if (visState !is null) {
-                    currentFov = Math::Lerp(setFov, currentFov, 0.9f);
-                }
-            }
-            // Temporary solution, it should work in conjunction with FieldOfView::Advanced (just like FieldOfView::Simple)
-            if (Setting_FOV != FieldOfView::Advanced) {
-                if (Setting_QuickZoom == QuickZoom::Advanced && camera !is null) {
-                    camera.FovRect = true;
-                    vec2 mousePos = UI::GetMousePos();
-                    vec2 windowSize = vec2(Draw::GetWidth(), Draw::GetHeight());
-                    mousePos = vec2(Math::Clamp(mousePos.x, 0, windowSize.x), Math::Clamp(mousePos.y, 0, windowSize.y));
-                    float calcPosX = ((mousePos.x * (1 - -1)) / windowSize.x) + -1;
-                    float calcPosY = ((mousePos.y * (1 - -1)) / windowSize.y) + -1;
-                    camera.FovRectMin = vec2(calcPosX - 1, calcPosY - 1);
-                    camera.FovRectMax = vec2(calcPosX + 1, calcPosY + 1);
-                } else {
-                    camera.FovRect = false;
-                }
+            @visState = VehicleState::ViewingPlayerState();
+            if (visState !is null) {
+                if (FOVChanging()) { currentFov = Math::Lerp(setFov, currentFov, 0.9f); }
+                if (IsRectFOVChanging()) { currentRectFov = Math::Lerp(setRectFov, currentRectFov, 0.9f); }
             }
         }
     }
@@ -134,6 +174,18 @@ class Mania : Game
         }
         ApplySettings();
         return block ? UI::InputBlocking::Block : UI::InputBlocking::DoNothing;
+    }
+
+    UI::InputBlocking VendorOnMouseWheel(int x, int y) override
+    {
+        if (Setting_QuickZoomScroll) {
+            if (Setting_QuickZoom == QuickZoom::Simple) {
+                Setting_QuickZoomSimpleAmount = Math::Clamp(Setting_QuickZoomSimpleAmount - (y * Setting_QuickZoomScrollMultiplier * 10), float(Camera::MinimumFOV), float(Camera::MaximumFOV));
+            } else if (Setting_QuickZoom == QuickZoom::Advanced) {
+                Setting_QuickZoomAdvancedAmount = Math::Clamp(Setting_QuickZoomAdvancedAmount + (y * Setting_QuickZoomScrollMultiplier), QuickZoom::MinimumAmount, QuickZoom::MaximumAmount);
+            }
+        }
+        return UI::InputBlocking::DoNothing;
     }
 }
 #endif
