@@ -5,12 +5,7 @@ class EnvironmentTab : Tab {
     {
         // Background
 
-#if !TMNEXT
-		string prefix = "##";
-#else
-		string prefix = "";
-#endif
-		Setting_Background = UI::Checkbox(prefix + "Background Toggle", Setting_Background);
+		Setting_Background = UI::Checkbox("##Background Toggle", Setting_Background);
 
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
@@ -19,11 +14,9 @@ class EnvironmentTab : Tab {
 		}
 
 		UI::SameLine();
-#if !TMNEXT
         if (Setting_Background) UI::BeginDisabled();
 		Setting_BackgroundColor = UI::InputColor3("Background Color", Setting_BackgroundColor);
         if (Setting_Background) UI::EndDisabled();
-#endif
 
 		// Decoration
 #if !TMNEXT

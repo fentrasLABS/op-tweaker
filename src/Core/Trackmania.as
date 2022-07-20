@@ -47,6 +47,8 @@ class Mania : Game
         if (camera !is null) {
             camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
             camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
+            camera.ClearColor = Setting_BackgroundColor;
+            camera.ClearColorEnable = !Setting_Background;
             // Temporary solution, it should work in conjunction with FieldOfView::Advanced (just like FieldOfView::Simple)
             if (Setting_QuickZoom != QuickZoom::Advanced) {
                 if (Setting_FOV == FieldOfView::Advanced) {
