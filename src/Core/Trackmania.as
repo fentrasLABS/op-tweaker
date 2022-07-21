@@ -79,7 +79,6 @@ class Mania : Game
             camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
             camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
             camera.ClearColor = Setting_BackgroundColor;
-            camera.ClearColorEnable = !Setting_Background;
             if (IsRectFOVChanging()) {
                 camera.FovRect = true;
             } else {

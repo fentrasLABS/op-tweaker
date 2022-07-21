@@ -14,9 +14,7 @@ class EnvironmentTab : Tab {
 		}
 
 		UI::SameLine();
-        if (Setting_Background) UI::BeginDisabled();
-		Setting_BackgroundColor = UI::InputColor3("Background Color", Setting_BackgroundColor);
-        if (Setting_Background) UI::EndDisabled();
+		Setting_BackgroundColor = UI::InputColor3("Background", Setting_BackgroundColor);
 
 		// Decoration
 #if !TMNEXT
