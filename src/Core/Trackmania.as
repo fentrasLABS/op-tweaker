@@ -170,14 +170,15 @@ class Mania : Game
                 Setting_QuickZoomActive = !Setting_QuickZoomActive;
                 block = true;
             }
+            ApplySettings();
         }
-        ApplySettings();
         return block ? UI::InputBlocking::Block : UI::InputBlocking::DoNothing;
     }
 
     UI::InputBlocking VendorOnMouseWheel(int x, int y) override
     {
-        if (Setting_QuickZoomScroll) {
+        print(x + ", " + y);
+        if (Setting_QuickZoomScroll && Setting_QuickZoomActive) {
             if (Setting_QuickZoom == QuickZoom::Simple) {
                 Setting_QuickZoomSimpleAmount = Math::Clamp(Setting_QuickZoomSimpleAmount - (y * Setting_QuickZoomScrollMultiplier * 10), float(Camera::MinimumFOV), float(Camera::MaximumFOV));
             } else if (Setting_QuickZoom == QuickZoom::Advanced) {

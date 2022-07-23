@@ -99,10 +99,10 @@ class Game : Vendor
                 Setting_Resolution = !Setting_Resolution;
                 block = true;
             }
+            ApplySettings();
         } else {
             return VendorOnKeyPress(down, key);
         }
-        ApplySettings();
         return block ? UI::InputBlocking::Block : UI::InputBlocking::DoNothing;
     }
 
