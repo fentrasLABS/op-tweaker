@@ -69,6 +69,7 @@ class CameraTab : Tab {
 		}
 
         // Aspect Ratio
+
         Setting_AspectRatio = UI::Checkbox("##Aspect Ratio Toggle", Setting_AspectRatio);
 
         if (UI::IsItemHovered()) {

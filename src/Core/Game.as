@@ -1,6 +1,5 @@
 class Game : Vendor
 {
-
     dictionary defaults;
 
     bool initialised = false;
@@ -14,11 +13,14 @@ class Game : Vendor
     Game() {
         @app = cast<CTrackMania>(GetApp());
         @view = app.Viewport;
+        @collection = app.GlobalCatalog.Chapters[4];
+        decoration = !Setting_Decoration;
+        warpPath = "GameData/Stadium256/Media/Solid/Warp/";
     }
 
     void AddNods()
     {
-        if (app.GameScene !is null && app.CurrentPlayground !is null && view.Cameras.Length > 0) {
+        if (app.GameScene !is null && (app.CurrentPlayground !is null || app.Editor !is null) && view.Cameras.Length > 0) {
             AddVendorNods();
         }
     }
@@ -50,7 +52,6 @@ class Game : Vendor
         if (view !is null) {
             view.ScreenShotWidth = Setting_ResolutionWidth;
             view.ScreenShotHeight = Setting_ResolutionHeight;
-            view.ScreenShotForceRes = Setting_Resolution;
             view.TextureRender = Setting_LightingMode == LightingMode::Minimal ? 0 : 2;
             view.RenderProjectors = Setting_Projectors ? 1 : 0;
         }
@@ -68,6 +69,12 @@ class Game : Vendor
 
     void OverrideSettings()
     {
+        if (view !is null) {
+            // Change code design choices
+            // You need to also have ApplySettings which can work without initialised game
+            // Therefore there needs to be ApplySettings - ApplyInitialisedSettings - and so on
+            view.ScreenShotForceRes = !UI::IsOverlayShown() ? Setting_Resolution : false;
+        }
         OverrideVendorSettings();
     }
 

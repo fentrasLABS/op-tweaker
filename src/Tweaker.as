@@ -4,6 +4,8 @@
 // m_IsOverlay3D needs re-toggle when entering a map to make cars appear again
 // Separate interface into classes like in Core folder
 // Settings as well?
+// Can't change resolution override back when in the menu
+// Ability to add shortcut to every setting
 
 // ManiaPlanet and Turbo TODO
 // Field of View (Dev::Patch, Moski plugin) and Lighting (too many nods) are not working

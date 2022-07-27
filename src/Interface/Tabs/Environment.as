@@ -17,15 +17,17 @@ class EnvironmentTab : Tab {
 		Setting_BackgroundColor = UI::InputColor3("Background", Setting_BackgroundColor);
 
 		// Decoration
-#if !TMNEXT
+
         Setting_Decoration = UI::Checkbox("Decoration Toggle", Setting_Decoration);
 
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
 			UI::Text("Toggle decoration");
+#if TMNEXT
+			UI::Text("\\$ff0Requires map restart (twice if in the menu)\\$z");
+#endif
 			UI::EndTooltip();
 		}
-#endif
 		
 		// Clouds
 

@@ -6,11 +6,7 @@ class SpecialTab : Tab {
     {
         // Wipeout Mode
 
-		if (UI::Checkbox("##Wipeout Mode", Setting_Wipeout)) {
-            Setting_Wipeout = true;
-        } else {
-            Setting_Wipeout = false;
-        }
+		Setting_Wipeout = UI::Checkbox("##Wipeout Mode", Setting_Wipeout);
 
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();

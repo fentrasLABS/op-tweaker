@@ -9,14 +9,19 @@ namespace Trackmania
 
 class Vendor
 {
-    CScene@ scene;
-    CSceneVehicleVisState@ visState;
+    bool decoration;
     bool initFov;
     float setFov;
     float currentFov;
     bool initRectFov;
     vec4 setRectFov;
     vec4 currentRectFov;
+    string warpPath;
+    
+    CScene@ scene;
+    CSceneVehicleVisState@ visState;
+    CGameCtnChapter@ collection;
+    
     FieldOfView currentSettingFOV;
     QuickZoom currentSettingQuickZoom;
 }
@@ -33,7 +38,7 @@ class Mania : Game
             || Setting_QuickZoom != currentSettingQuickZoom;
     }
 
-    private bool IsRectFOVChanging()
+    private bool FOVRectChanging()
     {
         return Math::Abs(currentRectFov.x - setRectFov.x) > 1e-4
             || Math::Abs(currentRectFov.y - setRectFov.y) > 1e-4
@@ -48,6 +53,43 @@ class Mania : Game
     private vec4 GetCameraFovRect(CHmsCamera@ cam)
     {
         return vec4(camera.FovRectMin.x, camera.FovRectMin.y, camera.FovRectMax.x, camera.FovRectMax.y);
+    }
+
+    private bool IsDecorationCreated()
+    {
+        return collection.Articles[5].CollectorFid.Nod !is null
+            && collection.Articles[6].CollectorFid.Nod !is null;
+    }
+
+    private void DecorationToggle(bool enabled)
+    {
+
+        CSystemFidFile@ fidStade4096 = Fids::GetGame(warpPath + "Stade4096.Prefab.Gbx");
+        CSystemFidFile@ fidStade1536 = Fids::GetGame(warpPath + "Stade1536.Prefab.Gbx");
+        CSystemFidFile@ fidStade1536B = Fids::GetGame(warpPath + "Stade1536B.Prefab.Gbx");
+        CPlugPrefab@ stade4096 = cast<CPlugPrefab>(fidStade4096.Preload());
+        CPlugPrefab@ stade1536 = cast<CPlugPrefab>(fidStade1536.Preload());
+        CPlugPrefab@ stade1536B = cast<CPlugPrefab>(fidStade1536B.Preload());
+        
+        if (!enabled) {
+            CSystemFidFile@ fidGrass4096 = Fids::GetGame(warpPath + "Grass4096.Mesh.Gbx");
+            CSystemFidFile@ fidGrass1536 = Fids::GetGame(warpPath + "Grass1536.Mesh.Gbx");
+            CPlugSolid2Model@ grass4096 = cast<CPlugSolid2Model>(fidGrass4096.Preload());
+            CPlugSolid2Model@ grass1536 = cast<CPlugSolid2Model>(fidGrass1536.Preload());
+            @cast<CPlugStaticObjectModel>(stade4096.Ents[0].Model).Mesh = grass4096;
+            @cast<CPlugStaticObjectModel>(stade1536.Ents[0].Model).Mesh = grass1536;
+            @cast<CPlugStaticObjectModel>(stade1536B.Ents[0].Model).Mesh = grass1536;
+        } else {
+            CSystemFidFile@ fidStadm4096 = Fids::GetGame(warpPath + "Stade4096.Mesh.Gbx");
+            CSystemFidFile@ fidStadm1536 = Fids::GetGame(warpPath + "Stade1536.Mesh.Gbx");
+            CPlugSolid2Model@ stadm4096 = cast<CPlugSolid2Model>(fidStadm4096.Preload());
+            CPlugSolid2Model@ stadm1536 = cast<CPlugSolid2Model>(fidStadm1536.Preload());
+            @cast<CPlugStaticObjectModel>(stade4096.Ents[0].Model).Mesh = stadm4096;
+            @cast<CPlugStaticObjectModel>(stade1536.Ents[0].Model).Mesh = stadm1536;
+            @cast<CPlugStaticObjectModel>(stade1536B.Ents[0].Model).Mesh = stadm1536;   
+        }
+
+        decoration = Setting_Decoration;
     }
 
     void AddVendorNods() override
@@ -79,7 +121,7 @@ class Mania : Game
             camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
             camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
             camera.ClearColor = Setting_BackgroundColor;
-            if (IsRectFOVChanging()) {
+            if (FOVRectChanging()) {
                 camera.FovRect = true;
             } else {
                 camera.FovRect = false;
@@ -120,7 +162,7 @@ class Mania : Game
             } else if (initFov) {
                 initFov = false;
             }
-            if (IsRectFOVChanging()) {
+            if (FOVRectChanging()) {
                 if (!initRectFov) {
                     currentRectFov = GetCameraFovRect(camera);
                     initRectFov = true;
@@ -154,8 +196,13 @@ class Mania : Game
         if (initialised) {
             @visState = VehicleState::ViewingPlayerState();
             if (visState !is null) {
-                if (FOVChanging()) { currentFov = Math::Lerp(setFov, currentFov, 0.9f); }
-                if (IsRectFOVChanging()) { currentRectFov = Math::Lerp(setRectFov, currentRectFov, 0.9f); }
+                if (FOVChanging()) currentFov = Math::Lerp(setFov, currentFov, 0.9f);
+                if (FOVRectChanging()) currentRectFov = Math::Lerp(setRectFov, currentRectFov, 0.9f);
+            }
+            if (Setting_Decoration != decoration && IsDecorationCreated()) {
+                DecorationToggle(Setting_Decoration);
+            } else if (!IsDecorationCreated()) {
+                decoration = !Setting_Decoration;
             }
         }
     }
@@ -177,7 +224,6 @@ class Mania : Game
 
     UI::InputBlocking VendorOnMouseWheel(int x, int y) override
     {
-        print(x + ", " + y);
         if (Setting_QuickZoomScroll && Setting_QuickZoomActive) {
             if (Setting_QuickZoom == QuickZoom::Simple) {
                 Setting_QuickZoomSimpleAmount = Math::Clamp(Setting_QuickZoomSimpleAmount - (y * Setting_QuickZoomScrollMultiplier * 10), float(Camera::MinimumFOV), float(Camera::MaximumFOV));
