@@ -1,13 +1,13 @@
 // 0.3.0 TODO
 // Apply tables for proper UI layout
-// Replace Render() with another method
 // m_IsOverlay3D needs re-toggle when entering a map to make cars appear again
 // Separate interface into classes like in Core folder
 // Settings as well?
 // Ability to add shortcut to every setting
+// Proper UI, accesible to everyone
 
 // ManiaPlanet and Turbo TODO
-// Field of View (Dev::Patch, Moski plugin) and Lighting (too many nods) are not working
+// Field of View (Dev::Patch (Moski plugin) or Fids) and Lighting (too many nods) are not working
 // Wrong skybox index in Valley and Lagoon
 // IsOverlay3D makes cars disappear mid-game and doesn't work in Turbo
 

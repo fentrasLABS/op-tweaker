@@ -105,10 +105,17 @@ class Game : Vendor
                 Setting_Resolution = !Setting_Resolution;
                 block = true;
             }
-            ApplySettings();
+        } else if (key == Setting_ZClipShortcutKey && Setting_ZClipShortcut != Shortcut::Disabled) {
+            if (Setting_ZClipShortcut == Shortcut::Hold) {
+                Setting_ZClip = down ? true : false;
+            } else if (Setting_ZClipShortcut == Shortcut::Toggle && down) {
+                Setting_ZClip = !Setting_ZClip;
+                block = true;
+            }
         } else {
             return VendorOnKeyPress(down, key);
         }
+        ApplySettings();
         return block ? UI::InputBlocking::Block : UI::InputBlocking::DoNothing;
     }
 

@@ -117,6 +117,13 @@ class CameraTab : Tab {
 			UI::EndCombo();
 		}
 
+		if (UI::IsItemHovered()) {
+			UI::BeginTooltip();
+			UI::Text("\\$ff0Preview Version Note");
+			UI::Text("Advanced Field of View and Quick Zoom modes affect Stereoscopy");
+			UI::EndTooltip();
+		}
+
 		if (Setting_Stereoscopy != Stereoscopy::Disabled) {
 			Setting_StereoscopySeparation = UI::SliderFloat("Eye Separation", Setting_StereoscopySeparation, 0, 1.f);
 			if (Setting_Stereoscopy == Stereoscopy::Anaglyph) {

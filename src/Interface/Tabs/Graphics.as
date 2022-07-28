@@ -69,6 +69,31 @@ class GraphicsTab : Tab {
 		UI::SameLine();
 		Setting_ZClipDistance = UI::SliderInt("Draw Distance", Setting_ZClipDistance, 10, 5000);
 
+		if (UI::BeginCombo("Draw Distance Shortcut", tostring(Setting_ZClipShortcut))) {
+			if (UI::Selectable("Disabled", false)) {
+				Setting_ZClipShortcut = Shortcut::Disabled;
+			}
+			if (UI::Selectable("Hold", false)) {
+				Setting_ZClipShortcut = Shortcut::Hold;
+			}
+			if (UI::Selectable("Toggle", false)) {
+				Setting_ZClipShortcut = Shortcut::Toggle;
+			}
+			UI::EndCombo();
+		}
+
+		if (Setting_ZClipShortcut != Shortcut::Disabled) {
+			if (UI::BeginCombo("Draw Distance Key", tostring(Setting_ZClipShortcutKey))) {
+				for (int i = 1; i < 255; i++) { // 255 is length of VirtualKey
+					if (tostring(VirtualKey(i)) == tostring(i)) continue; // thanks to NaNInf
+					if (UI::Selectable(tostring(VirtualKey(i)), false)) {
+						Setting_ZClipShortcutKey = VirtualKey(i);
+					}
+				}
+				UI::EndCombo();
+			}
+		}
+
 		UI::Separator();
 		// Render Mode
 
@@ -107,6 +132,7 @@ class GraphicsTab : Tab {
 			UI::BeginTooltip();
 			UI::Text("\\$ff0Preview Version Note");
 			UI::Text("If lighting is too bright you can tweak it in Environment tab.");
+			UI::Text("Disables Stereoscopy mode.");
 			UI::EndTooltip();
 		}
 #endif

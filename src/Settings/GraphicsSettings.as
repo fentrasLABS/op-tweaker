@@ -23,6 +23,12 @@ bool Setting_ZClip = false;
 [Setting name="ZClip Distance" category="Parameters"]
 int Setting_ZClipDistance = 5000;
 
+[Setting name="Resolution Shortcut" category="Parameters"]
+Shortcut Setting_ZClipShortcut = Shortcut::Disabled;
+
+[Setting name="Resolution Shortcut Key" category="Parameters"]
+VirtualKey Setting_ZClipShortcutKey= VirtualKey::F9;
+
 // Level of Detail
 
 [Setting name="Level of Detail" category="Parameters"]
