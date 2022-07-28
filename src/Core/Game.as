@@ -117,6 +117,16 @@ class Game : Vendor
         return UI::InputBlocking::DoNothing;
     }
 
+    UI::InputBlocking OnMouseButton(bool down, int button, int x, int y)
+    {
+        return VendorOnMouseButton(down, button, x, y);
+    }
+
+    UI::InputBlocking VendorOnMouseButton(bool down, int button, int x, int y)
+    {
+        return UI::InputBlocking::DoNothing;
+    }
+
     UI::InputBlocking OnMouseWheel(int x, int y)
     {
         return VendorOnMouseWheel(x, y);

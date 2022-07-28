@@ -47,6 +47,26 @@ class CameraTab : Tab {
 			UI::NextColumn();
 			UI::Text("FovRectMax");
 			UI::Columns(1);
+			// Don't use game variables in settings, maybe
+			if (!game.pickRectFov) {
+				if (UI::Button(Icons::SearchPlus + " Rect Picker")) {
+					game.tempRectFov = game.setRectFov;
+					game.pickRectFov = true;
+					UI::HideOverlay();
+				}
+			} else {
+				if (UI::Button(Icons::SearchPlus + " Stop Picker")) {
+					// Doesn't reset values
+					game.pickRectFov = false;
+				}
+			}
+
+			if (UI::IsItemHovered()) {
+				UI::BeginTooltip();
+				UI::Text("Use " + Icons::MousePointer + " mouse to change viewport position and " + Icons::ArrowsV + " scroll to change its zoom.");
+				UI::Text("Use " + Icons::Kenney::MouseLeftButton + " LMB to finish setup and " + Icons::Kenney::MouseRightButton + " RMB to cancel.");
+				UI::EndTooltip();
+			}
 		}
 
 		UI::Separator();
@@ -86,7 +106,7 @@ class CameraTab : Tab {
 		UI::Separator();
 		// Stereoscopy
 
-		if (UI::BeginCombo("Stereoscopy", tostring(Setting_Stereoscopy).Replace("_", ""))) {
+		if (UI::BeginCombo("Stereoscopy", tostring(Setting_Stereoscopy).Replace("_", " "))) {
 			for (int i = -1; i < 10; i++) {
 				if (tostring(Stereoscopy(i)) == tostring(i)) continue; // thanks to NaNInf
 				if (tostring(Stereoscopy(i)) == tostring(Stereoscopy::Workaround)) continue; // thanks to NaNInf

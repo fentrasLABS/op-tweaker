@@ -53,6 +53,11 @@ UI::InputBlocking OnKeyPress(bool down, VirtualKey key)
 	return game.OnKeyPress(down, key);
 }
 
+UI::InputBlocking OnMouseButton(bool down, int button, int x, int y)
+{
+	return game.OnMouseButton(down, button, x, y);
+}
+
 UI::InputBlocking OnMouseWheel(int x, int y)
 {
 	return game.OnMouseWheel(x, y);

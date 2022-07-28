@@ -14,8 +14,11 @@ class Vendor
     float setFov;
     float currentFov;
     bool initRectFov;
+    bool pickRectFov;
     vec4 setRectFov;
     vec4 currentRectFov;
+    vec4 tempRectFov;
+    float pickRectFovZoom;
     string warpPath;
     
     CScene@ scene;
@@ -54,6 +57,18 @@ class Mania : Game
     private vec4 GetCameraFovRect(CHmsCamera@ cam)
     {
         return vec4(camera.FovRectMin.x, camera.FovRectMin.y, camera.FovRectMax.x, camera.FovRectMax.y);
+    }
+
+    private vec4 GetMouseFovRect(float zoomFactor)
+    {
+        vec2 mousePos = UI::GetMousePos();
+        vec2 windowSize = vec2(Math::Max(Draw::GetWidth(), 16), Math::Max(Draw::GetHeight(), 16));
+        mousePos = vec2(Math::Clamp(mousePos.x, 1, windowSize.x), Math::Clamp(mousePos.y, 1, windowSize.y));
+        float calcPosX = ((mousePos.x * (zoomFactor - -zoomFactor)) / windowSize.x) + -zoomFactor;
+        float calcPosY = ((mousePos.y * (zoomFactor - -zoomFactor)) / windowSize.y) + -zoomFactor;
+        vec2 rectMin = vec2(calcPosX - zoomFactor, calcPosY - zoomFactor);
+        vec2 rectMax = vec2(calcPosX + zoomFactor, calcPosY + zoomFactor);
+        return vec4(rectMin.x, rectMin.y, rectMax.x, rectMax.y);
     }
 
     private bool IsDecorationCreated()
@@ -111,10 +126,13 @@ class Mania : Game
         currentSettingQuickZoom = Setting_QuickZoom;
         initFov = false;
         initRectFov = false;
+        pickRectFov = false;
         currentFov = camera.Fov;
         setFov = currentFov;
         currentRectFov = GetCameraFovRect(camera);
         setRectFov = currentRectFov;
+        tempRectFov = currentRectFov;
+        pickRectFovZoom = 1.f;
         InitNods();
     }
 
@@ -189,16 +207,11 @@ class Mania : Game
                         initRectFov = true;
                     }
                     if (Setting_QuickZoomActive && Setting_QuickZoom == QuickZoom::Advanced) {
-                        vec2 mousePos = UI::GetMousePos();
-                        // what the hell is 99999
-                        vec2 windowSize = vec2(Math::Clamp(Draw::GetWidth(), 1, 99999), Math::Clamp(Draw::GetHeight(), 1, 99999));
-                        mousePos = vec2(Math::Clamp(mousePos.x, 1, windowSize.x), Math::Clamp(mousePos.y, 1, windowSize.y));
-                        float calcPosX = ((mousePos.x * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.x) + -Setting_QuickZoomAdvancedAmount;
-                        float calcPosY = ((mousePos.y * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.y) + -Setting_QuickZoomAdvancedAmount;
-                        vec2 rectMin = vec2(calcPosX - Setting_QuickZoomAdvancedAmount, calcPosY - Setting_QuickZoomAdvancedAmount);
-                        vec2 rectMax = vec2(calcPosX + Setting_QuickZoomAdvancedAmount, calcPosY + Setting_QuickZoomAdvancedAmount);
-                        setRectFov = vec4(rectMin.x, rectMin.y, rectMax.x, rectMax.y);
+                        setRectFov = GetMouseFovRect(Setting_QuickZoomAdvancedAmount);
                     } else if (Setting_FOV == FieldOfView::Advanced) {
+                        if (pickRectFov) {
+                            Setting_FOVRect = GetMouseFovRect(pickRectFovZoom);
+                        }
                         setRectFov = Setting_FOVRect;
                     } else {
                         setRectFov = Camera::DefaultRectFOV;
@@ -245,6 +258,21 @@ class Mania : Game
         return block ? UI::InputBlocking::Block : UI::InputBlocking::DoNothing;
     }
 
+    UI::InputBlocking VendorOnMouseButton(bool down, int button, int x, int y)
+    {
+        if (Setting_FOV == FieldOfView::Advanced && pickRectFov && down) {
+            if (button == 0) {
+                pickRectFov = false;
+                UI::ShowOverlay();
+            } else if (button == 1) {
+                Setting_FOVRect = tempRectFov;
+                pickRectFov = false;
+                UI::ShowOverlay();
+            }
+        }
+        return UI::InputBlocking::DoNothing;
+    }
+
     UI::InputBlocking VendorOnMouseWheel(int x, int y) override
     {
         if (Setting_QuickZoomScroll && Setting_QuickZoomActive) {
@@ -253,6 +281,10 @@ class Mania : Game
             } else if (Setting_QuickZoom == QuickZoom::Advanced) {
                 Setting_QuickZoomAdvancedAmount = Math::Clamp(Setting_QuickZoomAdvancedAmount + (y * Setting_QuickZoomScrollMultiplier), QuickZoom::MinimumAmount, QuickZoom::MaximumAmount);
             }
+        }
+        if (Setting_FOV == FieldOfView::Advanced && pickRectFov) {
+            // Replace QuickZoom min/max amount with global FOVRect limits
+            pickRectFovZoom = Math::Clamp(pickRectFovZoom + (y * Setting_QuickZoomScrollMultiplier), QuickZoom::MinimumAmount, QuickZoom::MaximumAmount);
         }
         return UI::InputBlocking::DoNothing;
     }
