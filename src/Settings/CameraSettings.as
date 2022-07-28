@@ -44,7 +44,7 @@ float Setting_StereoscopySeparation = .150f;
 StereoscopyRatio Setting_StereoscopyRatio = StereoscopyRatio::Default;
 
 [Setting name="Stereoscopy Color" category="Parameters"]
-StereoscopyColor Setting_StereoscopyColor = StereoscopyColor::Optimized;
+StereoscopyColor Setting_StereoscopyColor = StereoscopyColor::Default;
 
 [Setting name="Stereoscopy Color Factor" category="Parameters"]
 float Setting_StereoscopyColorFactor = 1.f;
@@ -72,7 +72,6 @@ enum Stereoscopy
     Vertical_Reverse = 1,
     Horizontal = 3,
     Horizontal_Reverse = 4,
-    Blend = 10,
     Workaround = 9
 }
 
@@ -84,7 +83,7 @@ enum StereoscopyRatio
 
 enum StereoscopyColor
 {
-    Optimized = 2,
+    Default = 2,
     Full = 0,
     Half = 1
 }

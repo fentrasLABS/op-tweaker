@@ -4,7 +4,6 @@
 // m_IsOverlay3D needs re-toggle when entering a map to make cars appear again
 // Separate interface into classes like in Core folder
 // Settings as well?
-// Can't change resolution override back when in the menu
 // Ability to add shortcut to every setting
 
 // ManiaPlanet and Turbo TODO
@@ -12,7 +11,7 @@
 // Wrong skybox index in Valley and Lagoon
 // IsOverlay3D makes cars disappear mid-game and doesn't work in Turbo
 
-string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
+const string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";
 
 Mania@ game;
 Window@ window;
@@ -27,20 +26,18 @@ void RenderInterface()
 {
     if (window.isOpened) {
 		window.Render();
-		if (game.initialised) {
-			game.ApplySettings();
-		}
+		game.ApplySettings();
 	}
 }
 
 void Render()
 {
+	game.Render();
+	game.Routine();
 	if (game.initialised) {
 		if (game.app.GameScene is null) {
 			game.RemoveNods();
 		}
-		game.Render();
-		game.OverrideSettings();
 	} else {
 		game.AddNods();
 	}
@@ -48,9 +45,7 @@ void Render()
 
 void Update(float dt)
 {
-	if (game.initialised) {
-		game.Update(dt);
-	}
+	game.Update(dt);
 }
 
 UI::InputBlocking OnKeyPress(bool down, VirtualKey key)

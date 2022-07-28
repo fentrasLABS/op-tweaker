@@ -49,6 +49,7 @@ class CameraTab : Tab {
 			UI::Columns(1);
 		}
 
+		UI::Separator();
         // Ratio Priority
 
 		if (UI::BeginCombo("Ratio Priority", tostring(Setting_RatioPriority))) {
@@ -82,16 +83,49 @@ class CameraTab : Tab {
 		string aspectRatioLabel = "Aspect Ratio (" + (game.camera !is null ? tostring(game.camera.Width_Height) : "?") + ")";
         Setting_AspectRatioAmount = UI::SliderFloat(aspectRatioLabel, Setting_AspectRatioAmount, 0.001f, 10.f);
 
+		UI::Separator();
 		// Stereoscopy
 
-		if (UI::BeginCombo("Stereoscopy", tostring(Setting_Stereoscopy))) {
-			if (UI::Selectable("Disabled", false)) {
-				Setting_Stereoscopy = Stereoscopy::Disabled;
-			}
-			if (UI::Selectable("Anaglyph", false)) {
-				Setting_Stereoscopy = Stereoscopy::Anaglyph;
+		if (UI::BeginCombo("Stereoscopy", tostring(Setting_Stereoscopy).Replace("_", ""))) {
+			for (int i = -1; i < 10; i++) {
+				if (tostring(Stereoscopy(i)) == tostring(i)) continue; // thanks to NaNInf
+				if (tostring(Stereoscopy(i)) == tostring(Stereoscopy::Workaround)) continue; // thanks to NaNInf
+				if (UI::Selectable(tostring(Stereoscopy(i)).Replace("_", " "), false)) {
+					Setting_Stereoscopy = Stereoscopy(i);
+				}
 			}
 			UI::EndCombo();
+		}
+
+		if (Setting_Stereoscopy != Stereoscopy::Disabled) {
+			Setting_StereoscopySeparation = UI::SliderFloat("Eye Separation", Setting_StereoscopySeparation, 0, 1.f);
+			if (Setting_Stereoscopy == Stereoscopy::Anaglyph) {
+				if (UI::BeginCombo("Anaglyph Color", tostring(Setting_StereoscopyColor))) {
+					if (UI::Selectable("Default", false)) {
+						Setting_StereoscopyColor = StereoscopyColor::Default;
+					}
+					if (UI::Selectable("Full", false)) {
+						Setting_StereoscopyColor = StereoscopyColor::Full;
+					}
+					if (UI::Selectable("Half", false)) {
+						Setting_StereoscopyColor = StereoscopyColor::Half;
+					}
+					UI::EndCombo();
+				}
+				if (Setting_StereoscopyColor != StereoscopyColor::Default) {
+					Setting_StereoscopyColorFactor = UI::SliderFloat("Grayscale", Setting_StereoscopyColorFactor, 0, 1.f);
+				}
+			} else {
+				if (UI::BeginCombo("Split Ratio", tostring(Setting_StereoscopyRatio))) {
+					if (UI::Selectable("Default", false)) {
+						Setting_StereoscopyRatio = StereoscopyRatio::Default;
+					}
+					if (UI::Selectable("Optimized", false)) {
+						Setting_StereoscopyRatio = StereoscopyRatio::Optimized;
+					}
+					UI::EndCombo();
+				}
+			}
 		}
     }
 }

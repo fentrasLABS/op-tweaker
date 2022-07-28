@@ -49,36 +49,32 @@ class Game : Vendor
 
     void ApplySettings()
     {
-        if (view !is null) {
-            view.ScreenShotWidth = Setting_ResolutionWidth;
-            view.ScreenShotHeight = Setting_ResolutionHeight;
-            view.TextureRender = Setting_LightingMode == LightingMode::Minimal ? 0 : 2;
-            view.RenderProjectors = Setting_Projectors ? 1 : 0;
-        }
-        if (skybox !is null) {
-            skybox.IsVisible = Setting_Background;
-        }
-        if (clouds !is null) {
-            clouds.IsVisible = Setting_Clouds;
-            clouds.MaterialUseT3b = Setting_CloudsLighting;
+        if (initialised) {
+            if (view !is null) {
+                view.ScreenShotWidth = Setting_ResolutionWidth;
+                view.ScreenShotHeight = Setting_ResolutionHeight;
+                view.TextureRender = Setting_LightingMode == LightingMode::Minimal ? 0 : 2;
+                view.RenderProjectors = Setting_Projectors ? 1 : 0;
+            }
+            if (skybox !is null) {
+                skybox.IsVisible = Setting_Background;
+            }
+            if (clouds !is null) {
+                clouds.IsVisible = Setting_Clouds;
+                clouds.MaterialUseT3b = Setting_CloudsLighting;
+            }
         }
         ApplyVendorSettings();
     }
 
     void ApplyVendorSettings() { }
 
-    void OverrideSettings()
+    void Routine()
     {
-        if (view !is null) {
-            // Change code design choices
-            // You need to also have ApplySettings which can work without initialised game
-            // Therefore there needs to be ApplySettings - ApplyInitialisedSettings - and so on
-            view.ScreenShotForceRes = !UI::IsOverlayShown() ? Setting_Resolution : false;
-        }
-        OverrideVendorSettings();
+        VendorRoutine();
     }
 
-    void OverrideVendorSettings() { }
+    void VendorRoutine() { }
 
     void Render()
     {
@@ -91,6 +87,9 @@ class Game : Vendor
 
     void Update(float dt)
     {
+        if (view !is null) {
+            view.ScreenShotForceRes = !UI::IsOverlayShown() ? Setting_Resolution : false;
+        }
         VendorUpdate(dt);
     }
 

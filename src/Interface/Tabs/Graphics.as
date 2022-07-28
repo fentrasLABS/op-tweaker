@@ -55,6 +55,7 @@ class GraphicsTab : Tab {
 			}
 		}
 
+		UI::Separator();
 		// Draw Distance
 
 		Setting_ZClip = UI::Checkbox("##Draw Distance Toggle", Setting_ZClip);
@@ -68,7 +69,9 @@ class GraphicsTab : Tab {
 		UI::SameLine();
 		Setting_ZClipDistance = UI::SliderInt("Draw Distance", Setting_ZClipDistance, 10, 5000);
 
+		UI::Separator();
 		// Render Mode
+
 #if !TURBO
 		if (UI::BeginCombo("Render Mode", tostring(Setting_RenderMode))) {
 			if (UI::Selectable("Default", false)) {

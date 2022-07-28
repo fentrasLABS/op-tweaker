@@ -21,6 +21,7 @@ class Vendor
     CScene@ scene;
     CSceneVehicleVisState@ visState;
     CGameCtnChapter@ collection;
+    CSceneFxStereoscopy@ stereoscopy;
     
     FieldOfView currentSettingFOV;
     QuickZoom currentSettingQuickZoom;
@@ -92,12 +93,20 @@ class Mania : Game
         decoration = Setting_Decoration;
     }
 
+    private CSceneFxStereoscopy@ GetStereoscopyNod()
+    {
+        CSystemFidFile@ sceneFxNodRoot = cast<CSystemFidFile>(app.Resources.SceneFxNodRoot);
+        CSceneFxNod@ nod = cast<CSceneFxNod>(sceneFxNodRoot.Nod);
+        return cast<CSceneFxStereoscopy>(nod.NodInput.Fx);
+    }
+
     void AddVendorNods() override
     {
         @scene = app.GameScene.HackScene;
         @camera = view.Cameras[0];
         @clouds = cast<CSceneMobilClouds>(scene.Mobils[1]).Clouds;
         @skybox = scene.Mobils[0];
+        @stereoscopy = GetStereoscopyNod();
         currentSettingFOV = Setting_FOV;
         currentSettingQuickZoom = Setting_QuickZoom;
         initFov = false;
@@ -118,77 +127,90 @@ class Mania : Game
     void ApplyVendorSettings() override
     {
         app.StereoscopyEnable = Setting_Stereoscopy != Stereoscopy::Disabled;
-        if (camera !is null) {
-            camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
-            camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
-            camera.ClearColor = Setting_BackgroundColor;
-            if (FOVRectChanging()) {
-                camera.FovRect = true;
-            } else {
-                camera.FovRect = false;
-            }
+        if (Setting_Stereoscopy != Stereoscopy::Disabled) {
+            stereoscopy.Output = Stereoscopy::Workaround;
+            stereoscopy.Output = Setting_Stereoscopy;
+            stereoscopy.SeparationUserScale = Setting_StereoscopySeparation;
+            stereoscopy.SplitRatio = Setting_StereoscopyRatio;
+            stereoscopy.AnaglyphColor = Setting_StereoscopyColor;
+            stereoscopy.AnaglyphColorFactor = 1.f - Setting_StereoscopyColorFactor;
         }
-        if (scene !is null && scene.Lights.Length > 0) {
-            scene.Lights[0].Light.Color = Setting_LightingCar ? Setting_LightingCarColor : vec3(defaults["Lighting Car Color"]);
-            scene.Lights[0].Light.Intensity = Setting_LightingCar ? Setting_LightingCarIntensity : float(defaults["Lighting Car Intensity"]);
-            scene.Lights[1].Light.Color = Setting_LightingWorld ? Setting_LightingWorldColor : vec3(defaults["Lighting World Color"]);
-            scene.Lights[1].Light.Intensity = Setting_LightingWorld ? Setting_LightingWorldIntensity : float(defaults["Lighting World Intensity"]);
+        if (initialised) {
+            if (camera !is null) {
+                camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
+                camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;
+                camera.ClearColor = Setting_BackgroundColor;
+                if (FOVRectChanging()) {
+                    camera.FovRect = true;
+                } else {
+                    camera.FovRect = false;
+                }
+            }
+            if (scene !is null && scene.Lights.Length > 0) {
+                scene.Lights[0].Light.Color = Setting_LightingCar ? Setting_LightingCarColor : vec3(defaults["Lighting Car Color"]);
+                scene.Lights[0].Light.Intensity = Setting_LightingCar ? Setting_LightingCarIntensity : float(defaults["Lighting Car Intensity"]);
+                scene.Lights[1].Light.Color = Setting_LightingWorld ? Setting_LightingWorldColor : vec3(defaults["Lighting World Color"]);
+                scene.Lights[1].Light.Intensity = Setting_LightingWorld ? Setting_LightingWorldIntensity : float(defaults["Lighting World Intensity"]);
+            }
         }
     }
 
-    void OverrideVendorSettings() override
+    void VendorRoutine() override
     {
-        if (camera !is null) {
-            if (Setting_ZClip) {
-                camera.FarZ = Setting_ZClipDistance;
-            }
-            if (Setting_AspectRatio) {
-                camera.Width_Height = Setting_AspectRatioAmount;
-            }
-            if (FOVChanging()) {
-                if (!initFov) {
-                    currentFov = camera.Fov;
-                    initFov = true;
+        if (initialised) {
+            if (camera !is null) {
+                if (Setting_ZClip) {
+                    camera.FarZ = Setting_ZClipDistance;
                 }
-                if (Setting_QuickZoomActive && Setting_QuickZoom == QuickZoom::Simple) {
-                    setFov = Setting_QuickZoomSimpleAmount;
-                } else if (Setting_Wipeout && visState !is null) {
-                    setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Trackmania::GetPreferredFOV())) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Trackmania::GetPreferredFOV();
-                } else if (Setting_FOV == FieldOfView::Simple) {
-                    setFov = Setting_FOVAmount;
-                } else {
-                    setFov = camera.Fov;
+                if (Setting_AspectRatio) {
+                    camera.Width_Height = Setting_AspectRatioAmount;
                 }
-                camera.Fov = currentFov;
-            } else if (initFov) {
-                initFov = false;
+                if (FOVChanging()) {
+                    if (!initFov) {
+                        currentFov = camera.Fov;
+                        initFov = true;
+                    }
+                    if (Setting_QuickZoomActive && Setting_QuickZoom == QuickZoom::Simple) {
+                        setFov = Setting_QuickZoomSimpleAmount;
+                    } else if (Setting_Wipeout && visState !is null) {
+                        setFov = (((Math::Clamp(visState.FrontSpeed, Trackmania::MinimumFrontSpeed, Trackmania::MaximumFrontSpeed) - Trackmania::MinimumFrontSpeed) * (Setting_WipeoutMax - Trackmania::GetPreferredFOV())) / (Trackmania::MaximumFrontSpeed - Trackmania::MinimumFrontSpeed)) + Trackmania::GetPreferredFOV();
+                    } else if (Setting_FOV == FieldOfView::Simple) {
+                        setFov = Setting_FOVAmount;
+                    } else {
+                        setFov = camera.Fov;
+                    }
+                    camera.Fov = currentFov;
+                } else if (initFov) {
+                    initFov = false;
+                }
+                if (FOVRectChanging()) {
+                    if (!initRectFov) {
+                        currentRectFov = GetCameraFovRect(camera);
+                        initRectFov = true;
+                    }
+                    if (Setting_QuickZoomActive && Setting_QuickZoom == QuickZoom::Advanced) {
+                        vec2 mousePos = UI::GetMousePos();
+                        // what the hell is 99999
+                        vec2 windowSize = vec2(Math::Clamp(Draw::GetWidth(), 1, 99999), Math::Clamp(Draw::GetHeight(), 1, 99999));
+                        mousePos = vec2(Math::Clamp(mousePos.x, 1, windowSize.x), Math::Clamp(mousePos.y, 1, windowSize.y));
+                        float calcPosX = ((mousePos.x * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.x) + -Setting_QuickZoomAdvancedAmount;
+                        float calcPosY = ((mousePos.y * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.y) + -Setting_QuickZoomAdvancedAmount;
+                        vec2 rectMin = vec2(calcPosX - Setting_QuickZoomAdvancedAmount, calcPosY - Setting_QuickZoomAdvancedAmount);
+                        vec2 rectMax = vec2(calcPosX + Setting_QuickZoomAdvancedAmount, calcPosY + Setting_QuickZoomAdvancedAmount);
+                        setRectFov = vec4(rectMin.x, rectMin.y, rectMax.x, rectMax.y);
+                    } else if (Setting_FOV == FieldOfView::Advanced) {
+                        setRectFov = Setting_FOVRect;
+                    } else {
+                        setRectFov = Camera::DefaultRectFOV;
+                    }
+                    camera.FovRectMin = vec2(currentRectFov.x, currentRectFov.y);
+                    camera.FovRectMax = vec2(currentRectFov.z, currentRectFov.w);
+                } else if (initRectFov) {
+                    initRectFov = false;
+                }
+                if (Setting_FOV != currentSettingFOV) currentSettingFOV = Setting_FOV;
+                if (Setting_QuickZoom != currentSettingQuickZoom) currentSettingQuickZoom = Setting_QuickZoom;
             }
-            if (FOVRectChanging()) {
-                if (!initRectFov) {
-                    currentRectFov = GetCameraFovRect(camera);
-                    initRectFov = true;
-                }
-                if (Setting_QuickZoomActive && Setting_QuickZoom == QuickZoom::Advanced) {
-                    vec2 mousePos = UI::GetMousePos();
-                    vec2 windowSize = vec2(Math::Clamp(Draw::GetWidth(), 1, 99999), Math::Clamp(Draw::GetHeight(), 1, 99999));
-                    mousePos = vec2(Math::Clamp(mousePos.x, 1, windowSize.x), Math::Clamp(mousePos.y, 1, windowSize.y));
-                    float calcPosX = ((mousePos.x * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.x) + -Setting_QuickZoomAdvancedAmount;
-                    float calcPosY = ((mousePos.y * (Setting_QuickZoomAdvancedAmount - -Setting_QuickZoomAdvancedAmount)) / windowSize.y) + -Setting_QuickZoomAdvancedAmount;
-                    vec2 rectMin = vec2(calcPosX - Setting_QuickZoomAdvancedAmount, calcPosY - Setting_QuickZoomAdvancedAmount);
-                    vec2 rectMax = vec2(calcPosX + Setting_QuickZoomAdvancedAmount, calcPosY + Setting_QuickZoomAdvancedAmount);
-                    setRectFov = vec4(rectMin.x, rectMin.y, rectMax.x, rectMax.y);
-                } else if (Setting_FOV == FieldOfView::Advanced) {
-                    setRectFov = Setting_FOVRect;
-                } else {
-                    setRectFov = Camera::DefaultRectFOV;
-                }
-                camera.FovRectMin = vec2(currentRectFov.x, currentRectFov.y);
-                camera.FovRectMax = vec2(currentRectFov.z, currentRectFov.w);
-            } else if (initRectFov) {
-                initRectFov = false;
-            }
-            if (Setting_FOV != currentSettingFOV) currentSettingFOV = Setting_FOV;
-            if (Setting_QuickZoom != currentSettingQuickZoom) currentSettingQuickZoom = Setting_QuickZoom;
         }
     }
 

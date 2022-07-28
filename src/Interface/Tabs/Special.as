@@ -19,6 +19,7 @@ class SpecialTab : Tab {
 		UI::SameLine();
 		Setting_WipeoutMax = float(UI::SliderInt("Wipeout", int(Setting_WipeoutMax), Trackmania::GetPreferredFOV(), Camera::MaximumFOV));
 
+		UI::Separator();
         // Quick Zoom -- needs shortcuts to choose between keyboard, mouse wheel and controller (or all)
 
 		if (UI::BeginCombo("Quick Zoom", tostring(Setting_QuickZoom))) {

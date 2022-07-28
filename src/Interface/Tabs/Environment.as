@@ -3,9 +3,14 @@ class EnvironmentTab : Tab {
 
     void Render() override
     {
-        // Background
+        // Clear Color
 
-		Setting_Background = UI::Checkbox("##Background Toggle", Setting_Background);
+		Setting_BackgroundColor = UI::InputColor3("Background", Setting_BackgroundColor);
+
+		UI::Separator();
+		// Background
+
+		Setting_Background = UI::Checkbox("Skybox Toggle", Setting_Background);
 
 		if (UI::IsItemHovered()) {
 			UI::BeginTooltip();
@@ -14,9 +19,6 @@ class EnvironmentTab : Tab {
 		}
 
 		UI::SameLine();
-		Setting_BackgroundColor = UI::InputColor3("Background", Setting_BackgroundColor);
-
-		// Decoration
 
         Setting_Decoration = UI::Checkbox("Decoration Toggle", Setting_Decoration);
 
@@ -50,7 +52,9 @@ class EnvironmentTab : Tab {
 		}
         if (!Setting_Clouds) UI::EndDisabled();
 
+		UI::Separator();
 		// Lighting Car
+
 #if TMNEXT
 		Setting_LightingCar = UI::Checkbox("Lighting (Car)", Setting_LightingCar);
 

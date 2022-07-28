@@ -48,16 +48,18 @@ class Mania : Game
 
     void ApplyVendorSettings() override
     {
-        if (camera !is null) {
-            camera.ZClipEnable = Setting_ZClip;
-            camera.ZClipValue = Setting_ZClipDistance;
-            camera.ClearColor = Setting_BackgroundColor;
-            camera.ClearColorEnable = !Setting_Background;
-        }
-        for (uint i = 0; i < decoration.Length; i++) {
-            auto item = decoration[i];
-            if (item !is null) {
-                decoration[i].IsVisible = Setting_Decoration;
+        if (initialised) {
+            if (camera !is null) {
+                camera.ZClipEnable = Setting_ZClip;
+                camera.ZClipValue = Setting_ZClipDistance;
+                camera.ClearColor = Setting_BackgroundColor;
+                camera.ClearColorEnable = !Setting_Background;
+            }
+            for (uint i = 0; i < decoration.Length; i++) {
+                auto item = decoration[i];
+                if (item !is null) {
+                    decoration[i].IsVisible = Setting_Decoration;
+                }
             }
         }
     }
