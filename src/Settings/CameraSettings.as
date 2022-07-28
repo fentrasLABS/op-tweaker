@@ -32,6 +32,23 @@ bool Setting_AspectRatio = false;
 [Setting name="Aspect Ratio Amount" category="Parameters"]
 float Setting_AspectRatioAmount = 1.333f; // 16:9
 
+// Stereoscopy
+
+[Setting name="Stereoscopy" category="Parameters"]
+Stereoscopy Setting_Stereoscopy = Stereoscopy::Disabled;
+
+[Setting name="Stereoscopy Separation" category="Parameters"]
+float Setting_StereoscopySeparation = .150f;
+
+[Setting name="Stereoscopy Ratio" category="Parameters"]
+StereoscopyRatio Setting_StereoscopyRatio = StereoscopyRatio::Default;
+
+[Setting name="Stereoscopy Color" category="Parameters"]
+StereoscopyColor Setting_StereoscopyColor = StereoscopyColor::Optimized;
+
+[Setting name="Stereoscopy Color Factor" category="Parameters"]
+float Setting_StereoscopyColorFactor = 1.f;
+
 // enums
 
 enum FieldOfView
@@ -45,5 +62,30 @@ enum RatioPriority
 {
     Vertical,
     Horizontal
+}
+
+enum Stereoscopy
+{
+    Disabled = -1,
+    Anaglyph = 2,
+    Vertical = 0,
+    Vertical_Reverse = 1,
+    Horizontal = 3,
+    Horizontal_Reverse = 4,
+    Blend = 10,
+    Workaround = 9
+}
+
+enum StereoscopyRatio
+{
+    Default,
+    Optimized
+}
+
+enum StereoscopyColor
+{
+    Optimized = 2,
+    Full = 0,
+    Half = 1
 }
 #endif

@@ -18,11 +18,13 @@ This is a `0.3.0` version preview. It will contain bugs, unfinished features and
     * *Lighting
 * Camera
     * *Field of View
+    * Aspect Ratio
+    * Stereoscopy
 * Interface
     * *FPS counter
 * Special
-    * *Quick Zoom
     * *Wipeout Mode
+    * *Quick Zoom
 
 *Features marked with asterisk are unfinished.*
 

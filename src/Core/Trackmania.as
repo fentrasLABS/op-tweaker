@@ -117,6 +117,7 @@ class Mania : Game
 
     void ApplyVendorSettings() override
     {
+        app.StereoscopyEnable = Setting_Stereoscopy != Stereoscopy::Disabled;
         if (camera !is null) {
             camera.m_IsOverlay3d = Setting_RenderMode == RenderMode::Limited;
             camera.m_ViewportRatio = Setting_RatioPriority == RatioPriority::Horizontal ? CHmsCamera::EViewportRatio::FovX : CHmsCamera::EViewportRatio::FovY;

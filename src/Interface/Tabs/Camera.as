@@ -79,8 +79,20 @@ class CameraTab : Tab {
 		}
 
         UI::SameLine();
-        Setting_AspectRatioAmount = UI::SliderFloat("Aspect Ratio", Setting_AspectRatioAmount, 0.001f, 10.f);
-        UI::Text("Current Aspect Ratio: " + (game.camera !is null ? tostring(game.camera.Width_Height) : "?"));
+		string aspectRatioLabel = "Aspect Ratio (" + (game.camera !is null ? tostring(game.camera.Width_Height) : "?") + ")";
+        Setting_AspectRatioAmount = UI::SliderFloat(aspectRatioLabel, Setting_AspectRatioAmount, 0.001f, 10.f);
+
+		// Stereoscopy
+
+		if (UI::BeginCombo("Stereoscopy", tostring(Setting_Stereoscopy))) {
+			if (UI::Selectable("Disabled", false)) {
+				Setting_Stereoscopy = Stereoscopy::Disabled;
+			}
+			if (UI::Selectable("Anaglyph", false)) {
+				Setting_Stereoscopy = Stereoscopy::Anaglyph;
+			}
+			UI::EndCombo();
+		}
     }
 }
 #endif
