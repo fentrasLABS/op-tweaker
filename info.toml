@@ -1,10 +1,11 @@
 [meta]
-name     = "Tweaker Preview"
-author   = "fentras LABS"
-category = "Settings"
-version  = "220721"
-siteid   = 221
-blocks   = ["Tweaker"]
+name            = "Tweaker Preview"
+author          = "fentras LABS"
+category        = "Settings"
+version         = "220729"
+siteid          = 221
+blocks          = ["Tweaker"]
 
 [script]
-dependencies = ["VehicleState"]
+timeout         = 10000
+dependencies    = ["VehicleState"]
