@@ -13,9 +13,12 @@ class Game : Vendor
     Game() {
         @app = cast<CTrackMania>(GetApp());
         @view = app.Viewport;
+// Temporary fix, needs something like VendorGame()
+#if TMNEXT
         @collection = app.GlobalCatalog.Chapters[4];
         decoration = !Setting_Decoration;
         warpPath = "GameData/Stadium256/Media/Solid/Warp/";
+#endif
     }
 
     void AddNods()

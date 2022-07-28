@@ -7,7 +7,7 @@ This is a `0.3.0` version preview. It will contain bugs, unfinished features and
 ## Features
 * Graphics
     * Screen Resolution
-    * Draw Distance
+    * Realtime Draw Distance
     * *Rendering
     * Lighting
     * Projectors

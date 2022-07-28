@@ -1,4 +1,5 @@
 // 0.3.0 TODO
+// UI scaling picker (stretch to width or height or preserve, etc.)
 // Apply tables for proper UI layout
 // m_IsOverlay3D needs re-toggle when entering a map to make cars appear again
 // Separate interface into classes like in Core folder
@@ -9,6 +10,7 @@
 // ManiaPlanet and Turbo TODO
 // Field of View (Dev::Patch (Moski plugin) or Fids) and Lighting (too many nods) are not working
 // Wrong skybox index in Valley and Lagoon
+// To fix Draw Distance set BufferEnd to 1 and BufferStart to 0
 // IsOverlay3D makes cars disappear mid-game and doesn't work in Turbo
 
 const string title = "\\$d36" + Icons::Wrench + "\\$z Tweaker";

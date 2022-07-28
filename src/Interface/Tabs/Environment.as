@@ -27,6 +27,7 @@ class EnvironmentTab : Tab {
 			UI::Text("Toggle decoration");
 #if TMNEXT
 			UI::Text("\\$ff0Requires map restart (twice if in the menu)\\$z");
+			UI::Text("\\$f00Doesn't work when switching between maps (for now)\\$z");
 #endif
 			UI::EndTooltip();
 		}
