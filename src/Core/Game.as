@@ -56,7 +56,6 @@ class Game : Vendor
             if (view !is null) {
                 view.ScreenShotWidth = Setting_ResolutionWidth;
                 view.ScreenShotHeight = Setting_ResolutionHeight;
-                view.TextureRender = Setting_LightingMode == LightingMode::Minimal ? 0 : 2;
                 view.RenderProjectors = Setting_Projectors ? 1 : 0;
             }
             if (skybox !is null) {

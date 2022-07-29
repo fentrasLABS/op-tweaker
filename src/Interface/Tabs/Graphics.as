@@ -116,26 +116,6 @@ class GraphicsTab : Tab {
 		}
 #endif
 #endif
-		// Lighting Mode
-
-		if (UI::BeginCombo("Lighting Mode", tostring(Setting_LightingMode))) {
-			if (UI::Selectable("Default", false)) {
-				Setting_LightingMode = LightingMode::Default;
-			}
-			if (UI::Selectable("Minimal", false)) {
-				Setting_LightingMode = LightingMode::Minimal;
-			}
-			UI::EndCombo();
-		}
-#if TMNEXT
-		if (UI::IsItemHovered()) {
-			UI::BeginTooltip();
-			UI::Text("\\$ff0Preview Version Note");
-			UI::Text("If lighting is too bright you can tweak it in Environment tab.");
-			UI::Text("Disables Stereoscopy mode.");
-			UI::EndTooltip();
-		}
-#endif
 		// Projectors
 
 		Setting_Projectors = UI::Checkbox("Projectors Toggle", Setting_Projectors);

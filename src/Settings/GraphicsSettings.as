@@ -42,11 +42,6 @@ float Setting_LODDistance = 1.f;
 [Setting name="Render Mode" category="Parameters"]
 RenderMode Setting_RenderMode = RenderMode::Default;
 
-// Lighting Mode
-
-[Setting name="Render Style" category="Parameters"]
-LightingMode Setting_LightingMode = LightingMode::Default;
-
 // Projectors
 
 [Setting name="Projectors" category="Parameters"]
